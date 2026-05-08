@@ -5,7 +5,7 @@ export const createUserSchema = z.object({
   email: z.string().email('Email inválido'),
   password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
   role: z.enum(['administrador', 'usuario'], {
-    required_error: 'Selecione um perfil',
+    message: 'Selecione um perfil',
   }),
 });
 
@@ -15,7 +15,7 @@ export const editUserSchema = z.object({
   fullName: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
   email: z.string().email('Email inválido'),
   role: z.enum(['administrador', 'usuario'], {
-    required_error: 'Selecione um perfil',
+    message: 'Selecione um perfil',
   }),
   active: z.boolean(),
 });

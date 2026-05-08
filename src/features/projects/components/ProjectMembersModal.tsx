@@ -12,10 +12,8 @@ import {
   Group,
   Avatar,
   Paper,
-  ActionIcon,
-  Tooltip,
 } from '@mantine/core';
-import { IconAlertCircle, IconCheck, IconTrash } from '@tabler/icons-react';
+import { IconAlertCircle, IconCheck } from '@tabler/icons-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTeamsForSelect, useUsersForSelect } from '@/features/teams/hooks';
 import {
@@ -23,7 +21,6 @@ import {
   syncProjectMembers,
   type Project,
 } from '@/services/projects.service';
-import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/providers';
 
 interface ProjectMembersModalProps {

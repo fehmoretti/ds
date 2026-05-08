@@ -8,7 +8,7 @@ import { TokenEditor } from '@/features/tokens';
 type AppView = 'projects' | 'token-editor' | 'users' | 'teams' | 'profile';
 
 export function App() {
-  const { user, isLoading, isAdmin } = useAuth();
+  const { user, isLoading } = useAuth();
   const [activeView, setActiveView] = useState<AppView>('projects');
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
 

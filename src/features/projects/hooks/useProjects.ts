@@ -3,7 +3,6 @@ import {
   fetchUserProjects,
   createProject,
   deleteProject,
-  addProjectMember,
   type Project,
 } from '@/services/projects.service';
 import { supabase } from '@/lib/supabase';

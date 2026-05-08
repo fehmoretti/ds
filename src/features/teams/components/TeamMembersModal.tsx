@@ -4,7 +4,6 @@ import {
   Stack,
   Group,
   Text,
-  Badge,
   ActionIcon,
   Select,
   Button,

@@ -1,6 +1,5 @@
 import {
   Table,
-  Badge,
   ActionIcon,
   Tooltip,
   Group,

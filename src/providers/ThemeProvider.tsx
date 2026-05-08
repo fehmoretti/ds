@@ -2,7 +2,7 @@ import {
   MantineProvider,
   createTheme,
   type MantineColorsTuple,
-  type ColorSchemeManager,
+  type MantineColorSchemeManager,
 } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import type { ReactNode } from 'react';
@@ -153,7 +153,7 @@ interface ThemeProviderProps {
 }
 
 // Lock to dark mode without suppressing light CSS generation
-const darkSchemeManager: ColorSchemeManager = {
+const darkSchemeManager: MantineColorSchemeManager = {
   get: () => 'dark',
   set: () => {},
   subscribe: () => {},
