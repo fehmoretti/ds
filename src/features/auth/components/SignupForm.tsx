@@ -15,7 +15,8 @@ import {
 } from '@mantine/core';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IconAlertCircle, IconCheck, IconSparkles } from '@tabler/icons-react';
+import { IconAlertCircle, IconCheck } from '@tabler/icons-react';
+import Logo from '@/assets/logo.svg?react';
 import { signupSchema, type SignupSchema } from '../schemas';
 import { signUpWithEmail } from '../services';
 
@@ -89,20 +90,7 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
     <Center mih="100vh" style={{ background: 'var(--surface-base)' }}>
       <Container size={400} w="100%">
         <Stack align="center" mb="xl" className="animate-fade-in">
-          <Box
-            style={{
-              width: 48,
-              height: 48,
-              borderRadius: 14,
-              background: 'var(--gradient-brand)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 8px 24px var(--glow-brand)',
-            }}
-          >
-            <IconSparkles size={24} color="white" />
-          </Box>
+          <Logo style={{ width: 40, height: 45 }} />
           <Title order={2} fw={700} ta="center">
             Criar Conta
           </Title>
@@ -165,11 +153,6 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
                 type="submit"
                 fullWidth
                 loading={isLoading}
-                style={{
-                  background: 'var(--gradient-brand)',
-                  border: 'none',
-                  boxShadow: '0 4px 12px var(--glow-brand)',
-                }}
               >
                 Criar conta
               </Button>

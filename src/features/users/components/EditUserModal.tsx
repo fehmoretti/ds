@@ -110,10 +110,6 @@ export function EditUserModal({ opened, onClose, user }: EditUserModalProps) {
             type="submit"
             loading={updateUser.isPending}
             fullWidth
-            style={{
-              background: 'var(--gradient-brand)',
-              border: 'none',
-            }}
           >
             Salvar Alterações
           </Button>

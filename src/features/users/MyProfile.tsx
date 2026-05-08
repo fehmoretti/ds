@@ -122,10 +122,6 @@ export function MyProfile() {
               <Button
                 type="submit"
                 loading={updateProfile.isPending}
-                style={{
-                  background: 'var(--gradient-brand)',
-                  border: 'none',
-                }}
               >
                 Salvar Perfil
               </Button>

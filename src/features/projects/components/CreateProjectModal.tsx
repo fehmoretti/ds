@@ -119,10 +119,6 @@ export function CreateProjectModal({ opened, onClose }: CreateProjectModalProps)
             type="submit"
             fullWidth
             loading={createProject.isPending}
-            style={{
-              background: 'var(--gradient-brand)',
-              border: 'none',
-            }}
           >
             Criar Projeto
           </Button>

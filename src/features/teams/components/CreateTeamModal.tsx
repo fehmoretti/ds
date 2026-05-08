@@ -73,10 +73,6 @@ export function CreateTeamModal({ opened, onClose }: CreateTeamModalProps) {
             type="submit"
             loading={createTeam.isPending}
             fullWidth
-            style={{
-              background: 'var(--gradient-brand)',
-              border: 'none',
-            }}
           >
             Criar Equipe
           </Button>

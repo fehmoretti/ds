@@ -85,10 +85,6 @@ export function EditTeamModal({ opened, onClose, team }: EditTeamModalProps) {
             type="submit"
             loading={updateTeam.isPending}
             fullWidth
-            style={{
-              background: 'var(--gradient-brand)',
-              border: 'none',
-            }}
           >
             Salvar Alterações
           </Button>

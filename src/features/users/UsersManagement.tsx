@@ -35,11 +35,6 @@ export function UsersManagement() {
           leftSection={<IconPlus size={16} />}
           size="sm"
           onClick={createHandlers.open}
-          style={{
-            background: 'var(--gradient-brand)',
-            border: 'none',
-            boxShadow: '0 2px 8px var(--glow-brand)',
-          }}
         >
           Novo Usuário
         </Button>

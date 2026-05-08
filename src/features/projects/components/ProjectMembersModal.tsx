@@ -181,10 +181,6 @@ export function ProjectMembersModal({ opened, onClose, project }: ProjectMembers
           fullWidth
           onClick={handleSave}
           loading={syncMutation.isPending}
-          style={{
-            background: 'var(--gradient-brand)',
-            border: 'none',
-          }}
         >
           Salvar Alterações
         </Button>

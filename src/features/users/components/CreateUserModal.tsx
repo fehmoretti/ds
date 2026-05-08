@@ -98,10 +98,6 @@ export function CreateUserModal({ opened, onClose }: CreateUserModalProps) {
             type="submit"
             loading={createUser.isPending}
             fullWidth
-            style={{
-              background: 'var(--gradient-brand)',
-              border: 'none',
-            }}
           >
             Criar Usuário
           </Button>
