@@ -1,12 +1,16 @@
 import { useState } from 'react';
-import { LoginForm, SignupForm } from './components';
+import { LoginForm, SignupForm, LandingPage } from './components';
 
 export function AuthPage() {
-  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [mode, setMode] = useState<'landing' | 'login' | 'signup'>('landing');
 
   const toggleMode = () => {
     setMode((prev) => (prev === 'login' ? 'signup' : 'login'));
   };
+
+  if (mode === 'landing') {
+    return <LandingPage onStart={() => setMode('login')} />;
+  }
 
   if (mode === 'signup') {
     return <SignupForm onToggleMode={toggleMode} />;
