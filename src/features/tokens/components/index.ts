@@ -5,3 +5,4 @@ export { SpacingConfigurator } from './SpacingConfigurator';
 export { ShadowsConfigurator } from './ShadowsConfigurator';
 export { TokenPreview } from './TokenPreview';
 export { TokenExport } from './TokenExport';
+export { ProjectSettings } from './ProjectSettings';
