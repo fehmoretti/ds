@@ -3,7 +3,7 @@
  * Matches the structure from the Figma export: colors.json
  */
 import type { DesignTokens, ColorPalette } from '@/types';
-import { hexToFigmaRgba } from './color-utils';
+import { hexToFigmaRgba, hexToRgb } from './color-utils';
 
 interface FigmaVariable {
   id: string;
@@ -343,7 +343,32 @@ export function exportShadowsToFigma(tokens: DesignTokens): FigmaCollection {
 
   let idCounter = 118;
 
-  // Shadow color
+  // Brand color from primitives (shade 6 = main brand)
+  const brandHex = tokens.colors.brand.shades[6] ?? tokens.colors.brand.baseHex;
+  const brandRgb = hexToRgb(brandHex);
+
+  // Shadow color — brand (derived from brand primitive)
+  variables.push({
+    id: `VariableID:344:${idCounter}`,
+    name: 'color/brand',
+    description: 'Shadow color derived from brand primitive',
+    type: 'COLOR',
+    valuesByMode: {
+      [lightModeId]: { r: brandRgb.r, g: brandRgb.g, b: brandRgb.b, a: 0.2 },
+      [darkModeId]: { r: brandRgb.r, g: brandRgb.g, b: brandRgb.b, a: 0.4 },
+    },
+    resolvedValuesByMode: {
+      [lightModeId]: { resolvedValue: { r: brandRgb.r, g: brandRgb.g, b: brandRgb.b, a: 0.2 }, alias: null },
+      [darkModeId]: { resolvedValue: { r: brandRgb.r, g: brandRgb.g, b: brandRgb.b, a: 0.4 }, alias: null },
+    },
+    scopes: ['EFFECT_COLOR'],
+    hiddenFromPublishing: false,
+    codeSyntax: {},
+  });
+  variableIds.push(`VariableID:344:${idCounter}`);
+  idCounter++;
+
+  // Shadow color — neutral
   variables.push({
     id: `VariableID:344:${idCounter}`,
     name: 'color/neutral',
