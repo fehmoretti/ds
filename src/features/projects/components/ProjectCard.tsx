@@ -54,6 +54,7 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
             style={{
               width: 32,
               height: 32,
+              padding: 3,
               borderRadius: 8,
               background: 'var(--surface-glass)',
               border: '1px solid var(--border-subtle)',
@@ -67,8 +68,8 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
               <Image
                 src={project.logo_url}
                 alt={`${project.name} logo`}
-                w={32}
-                h={32}
+                w="100%"
+                h="100%"
                 fit="contain"
               />
             ) : (
