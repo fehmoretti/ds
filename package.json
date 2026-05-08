@@ -1,0 +1,49 @@
+{
+  "name": "new-design-tokens",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "React + Supabase + Mantine Secure Pipeline",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css}\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@mantine/core": "^9.1.1",
+    "@mantine/form": "^9.1.1",
+    "@mantine/hooks": "^9.1.1",
+    "@mantine/notifications": "^9.1.1",
+    "@supabase/supabase-js": "^2.105.3",
+    "@tabler/icons-react": "^3.42.0",
+    "@tanstack/react-query": "^5.100.9",
+    "jszip": "^3.10.1",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-hook-form": "^7.75.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.10",
+    "vite-plugin-svgr": "^5.2.0"
+  }
+}

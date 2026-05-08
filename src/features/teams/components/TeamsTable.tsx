@@ -1,0 +1,116 @@
+import {
+  Table,
+  Badge,
+  ActionIcon,
+  Tooltip,
+  Group,
+  Text,
+  Loader,
+  Center,
+  Alert,
+  Paper,
+} from '@mantine/core';
+import { IconEdit, IconUsers, IconTrash, IconAlertCircle } from '@tabler/icons-react';
+import type { Team } from '../services';
+
+interface TeamsTableProps {
+  teams: Team[] | undefined;
+  isLoading: boolean;
+  error: Error | null;
+  onEdit: (team: Team) => void;
+  onManageMembers: (team: Team) => void;
+  onDelete: (team: Team) => void;
+}
+
+export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, onDelete }: TeamsTableProps) {
+  if (isLoading) {
+    return (
+      <Center py="xl">
+        <Loader size="md" />
+      </Center>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert icon={<IconAlertCircle size={16} />} color="red" variant="light">
+        {error.message}
+      </Alert>
+    );
+  }
+
+  if (!teams?.length) {
+    return (
+      <Center py="xl">
+        <Text c="dimmed">Nenhuma equipe encontrada.</Text>
+      </Center>
+    );
+  }
+
+  return (
+    <Paper className="surface-card" radius="lg" style={{ overflow: 'hidden' }}>
+      <Table striped highlightOnHover>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Nome</Table.Th>
+            <Table.Th>Descrição</Table.Th>
+            <Table.Th>Criada em</Table.Th>
+            <Table.Th ta="right">Ações</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {teams.map((team) => (
+            <Table.Tr key={team.id}>
+              <Table.Td>
+                <Text size="sm" fw={500}>
+                  {team.name}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text size="sm" c="dimmed" lineClamp={1}>
+                  {team.description || '—'}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text size="sm" c="dimmed">
+                  {new Date(team.created_at).toLocaleDateString('pt-BR')}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Group gap="xs" justify="flex-end">
+                  <Tooltip label="Gerenciar membros">
+                    <ActionIcon
+                      variant="subtle"
+                      color="blue"
+                      onClick={() => onManageMembers(team)}
+                    >
+                      <IconUsers size={16} />
+                    </ActionIcon>
+                  </Tooltip>
+                  <Tooltip label="Editar equipe">
+                    <ActionIcon
+                      variant="subtle"
+                      color="gray"
+                      onClick={() => onEdit(team)}
+                    >
+                      <IconEdit size={16} />
+                    </ActionIcon>
+                  </Tooltip>
+                  <Tooltip label="Excluir equipe">
+                    <ActionIcon
+                      variant="subtle"
+                      color="red"
+                      onClick={() => onDelete(team)}
+                    >
+                      <IconTrash size={16} />
+                    </ActionIcon>
+                  </Tooltip>
+                </Group>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </Paper>
+  );
+}
