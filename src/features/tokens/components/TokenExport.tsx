@@ -12,8 +12,12 @@ import {
   ActionIcon,
   Tooltip,
   ScrollArea,
+  Alert,
+  Anchor,
+  List,
+  ThemeIcon,
 } from '@mantine/core';
-import { IconCopy, IconCheck, IconDownload, IconFileZip } from '@tabler/icons-react';
+import { IconCopy, IconCheck, IconDownload, IconFileZip, IconBrandFigma, IconInfoCircle } from '@tabler/icons-react';
 import JSZip from 'jszip';
 import { useTokens } from '@/providers';
 import { exportToMantineCode } from '@/lib/mantine-export';
@@ -132,6 +136,48 @@ export function TokenExport() {
           Exporte seus tokens como código Mantine ou JSON para Figma Variables.
         </Text>
       </div>
+
+      {format.startsWith('figma') && (
+        <Alert
+          icon={<IconBrandFigma size={18} />}
+          title="Como importar no Figma"
+          color="violet"
+          variant="light"
+          radius="md"
+        >
+          <List size="sm" spacing={6} icon={
+            <ThemeIcon size={18} radius="xl" variant="light" color="violet">
+              <IconInfoCircle size={12} />
+            </ThemeIcon>
+          }>
+            <List.Item>
+              Instale o plugin{' '}
+              <Anchor
+                href="https://www.figma.com/community/plugin/1256972111705530093"
+                target="_blank"
+                fw={600}
+              >
+                Export/Import Variables
+              </Anchor>{' '}
+              no Figma.
+            </List.Item>
+            <List.Item>
+              Abra o{' '}
+              <Anchor
+                href="https://www.figma.com/files/team/1547225245484562294/project/561147928?fuid=1547225241184416419"
+                target="_blank"
+                fw={600}
+              >
+                Design System no Figma
+              </Anchor>{' '}
+              do Distrito Tecnológico.
+            </List.Item>
+            <List.Item>
+              No Figma, execute o plugin e use a opção <Text span fw={600}>Import</Text> para carregar os arquivos JSON exportados aqui.
+            </List.Item>
+          </List>
+        </Alert>
+      )}
 
       <SegmentedControl
         value={format}
