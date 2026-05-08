@@ -100,11 +100,6 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
                 type="submit"
                 fullWidth
                 loading={isLoading}
-                style={{
-                  background: 'var(--gradient-brand)',
-                  border: 'none',
-                  boxShadow: '0 4px 12px var(--glow-brand)',
-                }}
               >
                 Entrar
               </Button>

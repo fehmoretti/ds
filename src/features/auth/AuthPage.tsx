@@ -9,7 +9,7 @@ export function AuthPage() {
   };
 
   if (mode === 'landing') {
-    return <LandingPage onStart={() => setMode('login')} />;
+    return <LandingPage onStart={() => setMode('login')} onSignup={() => setMode('signup')} />;
   }
 
   if (mode === 'signup') {

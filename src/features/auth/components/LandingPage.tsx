@@ -159,9 +159,10 @@ function WorkflowStep({ step, title, desc, color }: { step: number; title: strin
 
 interface LandingPageProps {
   onStart: () => void;
+  onSignup: () => void;
 }
 
-export function LandingPage({ onStart }: LandingPageProps) {
+export function LandingPage({ onStart, onSignup }: LandingPageProps) {
   return (
     <>
       <style>{keyframes}</style>
@@ -196,8 +197,8 @@ export function LandingPage({ onStart }: LandingPageProps) {
             <Button variant="subtle" color="gray" size="sm" onClick={onStart}>
               Entrar
             </Button>
-            <Button size="sm" onClick={onStart}>
-              Acessar
+            <Button size="sm" onClick={onSignup}>
+              Cadastre-se
             </Button>
           </Group>
         </Group>
