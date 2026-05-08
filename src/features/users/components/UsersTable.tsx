@@ -47,6 +47,7 @@ export function UsersTable({ users, isLoading, error, onEdit }: UsersTableProps)
 
   return (
     <Paper className="surface-card" radius="lg" style={{ overflow: 'hidden' }}>
+      <Table.ScrollContainer minWidth={700}>
       <Table striped highlightOnHover>
         <Table.Thead>
           <Table.Tr>
@@ -112,6 +113,7 @@ export function UsersTable({ users, isLoading, error, onEdit }: UsersTableProps)
           ))}
         </Table.Tbody>
       </Table>
+      </Table.ScrollContainer>
     </Paper>
   );
 }

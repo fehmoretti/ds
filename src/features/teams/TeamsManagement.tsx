@@ -26,7 +26,7 @@ export function TeamsManagement() {
 
   return (
     <Stack gap="lg">
-      <Group justify="space-between" align="flex-end">
+      <Group justify="space-between" align="flex-end" wrap="wrap" gap="sm">
         <div>
           <Group gap="xs" mb={4}>
             <IconUsersGroup size={20} style={{ color: 'var(--text-secondary)' }} />

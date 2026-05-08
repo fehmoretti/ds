@@ -48,6 +48,7 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
 
   return (
     <Paper className="surface-card" radius="lg" style={{ overflow: 'hidden' }}>
+      <Table.ScrollContainer minWidth={600}>
       <Table striped highlightOnHover>
         <Table.Thead>
           <Table.Tr>
@@ -113,6 +114,7 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
           ))}
         </Table.Tbody>
       </Table>
+      </Table.ScrollContainer>
     </Paper>
   );
 }

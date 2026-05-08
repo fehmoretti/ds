@@ -209,7 +209,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
             onChange={(val) => setActiveTab((val as TabValue) ?? 'colors')}
             variant="pills"
           >
-            <Tabs.List mb="xl">
+            <Tabs.List mb="xl" style={{ overflowX: 'auto', flexWrap: 'nowrap' }}>
               <Tabs.Tab value="colors" leftSection={<IconPalette size={15} />}>
                 Cores
               </Tabs.Tab>
