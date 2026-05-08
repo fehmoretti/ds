@@ -167,6 +167,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
                 style={{
                   width: 36,
                   height: 36,
+                  padding: 3,
                   borderRadius: 8,
                   background: 'var(--surface-glass)',
                   border: '1px solid var(--border-subtle)',
@@ -176,7 +177,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
                   overflow: 'hidden',
                 }}
               >
-                <Image src={logoUrl} alt="Logo do projeto" w={36} h={36} fit="contain" />
+                <Image src={logoUrl} alt="Logo do projeto" w="100%" h="100%" fit="contain" />
               </Box>
             ) : (
               <Logo style={{ width: 22, height: 25 }} />
