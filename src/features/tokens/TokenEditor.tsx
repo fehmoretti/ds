@@ -14,7 +14,6 @@ import {
   Alert,
   Box,
   Stack,
-  FileButton,
   Image,
 } from '@mantine/core';
 import {
@@ -30,12 +29,11 @@ import {
   IconDeviceFloppy,
   IconAlertCircle,
   IconCheck,
-  IconCamera,
   IconSettings,
 } from '@tabler/icons-react';
 import Logo from '@/assets/logo.svg?react';
 import { useTokens } from '@/providers';
-import { fetchProject, saveProjectTokens, uploadProjectLogo } from '@/services/projects.service';
+import { fetchProject, saveProjectTokens } from '@/services/projects.service';
 import type { DesignTokens } from '@/types';
 import {
   ColorsConfigurator,
@@ -64,7 +62,6 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [isUploadingLogo, setIsUploadingLogo] = useState(false);
   const { tokens, dispatch } = useTokens();
 
   useEffect(() => {
@@ -123,19 +120,6 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
     dispatch({ type: 'RESET_TOKENS' });
   };
 
-  const handleLogoUpload = useCallback(async (file: File | null) => {
-    if (!file || file.size > 2 * 1024 * 1024) return;
-    setIsUploadingLogo(true);
-    try {
-      const url = await uploadProjectLogo(projectId, file);
-      setLogoUrl(url);
-    } catch {
-      // silently fail — user can retry
-    } finally {
-      setIsUploadingLogo(false);
-    }
-  }, [projectId]);
-
   if (isLoadingProject) {
     return (
       <Center mih="100vh" style={{ background: 'var(--surface-base)' }}>
@@ -179,46 +163,24 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
               </ActionIcon>
             </Tooltip>
             <Logo style={{ width: 22, height: 25 }} />
-            <Box pos="relative" style={{ display: 'inline-flex' }}>
-              <Box
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 8,
-                  background: 'var(--surface-glass)',
-                  border: '1px solid var(--border-subtle)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden',
-                }}
-              >
-                {logoUrl ? (
-                  <Image src={logoUrl} alt="Logo do projeto" w={36} h={36} fit="contain" />
-                ) : (
-                  <IconPalette size={18} color="var(--mantine-color-brand-5)" />
-                )}
-              </Box>
-              <FileButton onChange={handleLogoUpload} accept="image/png,image/jpeg,image/webp,image/svg+xml">
-                {(props) => (
-                  <Tooltip label="Alterar logo" position="bottom">
-                    <ActionIcon
-                      {...props}
-                      size={18}
-                      variant="filled"
-                      color="brand"
-                      radius="xl"
-                      pos="absolute"
-                      bottom={-4}
-                      right={-4}
-                      loading={isUploadingLogo}
-                      aria-label="Alterar logo do projeto"
-                    >
-                      <IconCamera size={10} />
-                    </ActionIcon>
-                  </Tooltip>
-                )}
-              </FileButton>
+            <Box
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                background: 'var(--surface-glass)',
+                border: '1px solid var(--border-subtle)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+              }}
+            >
+              {logoUrl ? (
+                <Image src={logoUrl} alt="Logo do projeto" w={36} h={36} fit="contain" />
+              ) : (
+                <IconPalette size={18} color="var(--mantine-color-brand-5)" />
+              )}
             </Box>
             <div>
               <Title order={5} fw={600} lh={1.2}>
