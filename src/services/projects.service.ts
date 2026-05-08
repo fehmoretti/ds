@@ -253,3 +253,32 @@ export async function saveProjectTokens(
 ): Promise<Project> {
   return updateProject(projectId, { tokens_data: tokensData as unknown as Json });
 }
+
+/**
+ * Upload a project logo and update the project's logo_url.
+ */
+export async function uploadProjectLogo(
+  projectId: string,
+  file: File,
+): Promise<string> {
+  const ext = file.name.split('.').pop() ?? 'png';
+  const path = `${projectId}/logo.${ext}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from('project-logos')
+    .upload(path, file, { upsert: true });
+
+  if (uploadError) {
+    throw new Error('Falha ao enviar logo do projeto');
+  }
+
+  const { data: urlData } = supabase.storage
+    .from('project-logos')
+    .getPublicUrl(path);
+
+  const logoUrl = urlData.publicUrl;
+
+  await updateProject(projectId, { logo_url: logoUrl });
+
+  return logoUrl;
+}

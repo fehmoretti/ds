@@ -49,6 +49,7 @@ export type Database = {
           description: string | null
           owner_id: string
           tokens_data: Json | null
+          logo_url: string | null
           created_at: string
           updated_at: string
         }
@@ -58,6 +59,7 @@ export type Database = {
           description?: string | null
           owner_id: string
           tokens_data?: Json | null
+          logo_url?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -67,6 +69,7 @@ export type Database = {
           description?: string | null
           owner_id?: string
           tokens_data?: Json | null
+          logo_url?: string | null
           created_at?: string
           updated_at?: string
         }

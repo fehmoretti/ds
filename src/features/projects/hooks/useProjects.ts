@@ -4,6 +4,7 @@ import {
   createProject,
   deleteProject,
   syncProjectMembers,
+  uploadProjectLogo,
   type Project,
 } from '@/services/projects.service';
 import type { Json } from '@/lib/supabase/database.types';
@@ -22,7 +23,7 @@ export function useCreateProject() {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async (data: { name: string; description?: string; teamIds?: string[]; userIds?: string[] }) => {
+    mutationFn: async (data: { name: string; description?: string; teamIds?: string[]; userIds?: string[]; logoFile?: File }) => {
       const project = await createProject({
         name: data.name,
         description: data.description ?? null,
@@ -36,6 +37,10 @@ export function useCreateProject() {
         data.teamIds ?? [],
         data.userIds ?? [],
       );
+
+      if (data.logoFile) {
+        await uploadProjectLogo(project.id, data.logoFile);
+      }
 
       return project;
     },

@@ -6,6 +6,7 @@ import {
   Tooltip,
   Badge,
   Box,
+  Image,
 } from '@mantine/core';
 import { IconTrash, IconCalendar, IconPalette, IconUsers } from '@tabler/icons-react';
 import type { Project } from '@/services/projects.service';
@@ -59,9 +60,20 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              overflow: 'hidden',
             }}
           >
-            <IconPalette size={16} color="var(--mantine-color-brand-5)" />
+            {project.logo_url ? (
+              <Image
+                src={project.logo_url}
+                alt={`${project.name} logo`}
+                w={32}
+                h={32}
+                fit="contain"
+              />
+            ) : (
+              <IconPalette size={16} color="var(--mantine-color-brand-5)" />
+            )}
           </Box>
           <Text fw={600} size="sm" lineClamp={1} style={{ flex: 1 }}>
             {project.name}
