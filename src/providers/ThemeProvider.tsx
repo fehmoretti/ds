@@ -7,8 +7,8 @@ import {
 import { Notifications } from '@mantine/notifications';
 import type { ReactNode } from 'react';
 
-import '@mantine/core/styles.css';
-import '@mantine/notifications/styles.css';
+import '@mantine/core/styles.layer.css';
+import '@mantine/notifications/styles.layer.css';
 import '@/styles/global.css';
 
 // Brand palette based on #F32B50
