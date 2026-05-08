@@ -32,7 +32,7 @@ export function UsersTable({ users, isLoading, error, onEdit }: UsersTableProps)
   if (error) {
     return (
       <Alert icon={<IconAlertCircle size={16} />} color="red" variant="light">
-        {error.message}
+        Erro ao carregar usuários. Tente novamente mais tarde.
       </Alert>
     );
   }
@@ -100,6 +100,7 @@ export function UsersTable({ users, isLoading, error, onEdit }: UsersTableProps)
                     <ActionIcon
                       variant="subtle"
                       color="gray"
+                      aria-label="Editar usuário"
                       onClick={() => onEdit(user)}
                     >
                       <IconEdit size={16} />

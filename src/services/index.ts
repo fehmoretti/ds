@@ -1,5 +1,4 @@
 // Global services barrel
-export { supabase } from '@/lib/supabase';
 export {
   fetchUserProjects,
   fetchProject,

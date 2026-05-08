@@ -10,24 +10,11 @@ import {
 } from '@mantine/core';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useState } from 'react';
 import { useCreateProject } from '../hooks';
 import { useTeamsForSelect, useUsersForSelect } from '@/features/teams/hooks';
+import { createProjectSchema, type CreateProjectForm } from '../schemas';
 
-const createProjectSchema = z.object({
-  name: z
-    .string()
-    .min(3, 'Nome deve ter pelo menos 3 caracteres')
-    .max(100, 'Nome deve ter no máximo 100 caracteres'),
-  description: z
-    .string()
-    .max(500, 'Descrição deve ter no máximo 500 caracteres')
-    .optional()
-    .or(z.literal('')),
-});
-
-type CreateProjectForm = z.infer<typeof createProjectSchema>;
 
 interface CreateProjectModalProps {
   opened: boolean;

@@ -44,8 +44,8 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
     try {
       await signUpWithEmail(data.email, data.password, data.fullName);
       setSuccess(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao criar conta');
+    } catch (_err) {
+      setError('Não foi possível criar a conta. Verifique os dados e tente novamente.');
     } finally {
       setIsLoading(false);
     }

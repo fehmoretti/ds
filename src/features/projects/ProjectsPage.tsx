@@ -71,6 +71,7 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
                   color={activeView === 'users' ? 'brand' : 'gray'}
                   onClick={() => onNavigate?.('users')}
                   size="lg"
+                  aria-label="Gerenciar Usuários"
                 >
                   <IconUsers size={18} />
                 </ActionIcon>
@@ -83,6 +84,7 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
                   color={activeView === 'teams' ? 'brand' : 'gray'}
                   onClick={() => onNavigate?.('teams')}
                   size="lg"
+                  aria-label="Gerenciar Equipes"
                 >
                   <IconUsersGroup size={18} />
                 </ActionIcon>
@@ -94,6 +96,7 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
                 color={activeView === 'profile' ? 'brand' : 'gray'}
                 onClick={() => onNavigate?.('profile')}
                 size="lg"
+                aria-label="Meu Perfil"
               >
                 <IconUser size={18} />
               </ActionIcon>
@@ -104,7 +107,7 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
               </Text>
             )}
             <Tooltip label="Sair" position="bottom">
-              <ActionIcon variant="subtle" color="gray" onClick={signOut} size="lg">
+              <ActionIcon variant="subtle" color="gray" onClick={signOut} size="lg" aria-label="Sair">
                 <IconLogout size={18} />
               </ActionIcon>
             </Tooltip>

@@ -54,6 +54,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
   const [activeTab, setActiveTab] = useState<TabValue>('colors');
   const [projectName, setProjectName] = useState('');
   const [isLoadingProject, setIsLoadingProject] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -80,6 +81,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
         }
       } catch {
         if (!cancelled) {
+          setLoadError(true);
           setProjectName('Projeto');
         }
       } finally {
@@ -124,6 +126,21 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
     );
   }
 
+  if (loadError) {
+    return (
+      <Center mih="100vh" style={{ background: 'var(--surface-base)' }}>
+        <Stack align="center" gap="md" maw={400}>
+          <Alert icon={<IconAlertCircle size={16} />} color="red" variant="light" title="Erro ao carregar projeto">
+            Não foi possível carregar os dados do projeto. Verifique sua conexão e tente novamente.
+          </Alert>
+          <Button variant="light" onClick={onBack}>
+            Voltar para projetos
+          </Button>
+        </Stack>
+      </Center>
+    );
+  }
+
   return (
     <AppShell header={{ height: 64 }} padding="md">
       <AppShell.Header>
@@ -135,6 +152,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
                 color="gray"
                 onClick={onBack}
                 size="lg"
+                aria-label="Voltar para projetos"
               >
                 <IconArrowLeft size={18} />
               </ActionIcon>
@@ -152,7 +170,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
 
           <Group gap="xs">
             <Tooltip label="Resetar para padrão" position="bottom">
-              <ActionIcon variant="subtle" color="gray" onClick={handleReset} size="lg">
+              <ActionIcon variant="subtle" color="gray" onClick={handleReset} size="lg" aria-label="Resetar para padrão">
                 <IconArrowBackUp size={18} />
               </ActionIcon>
             </Tooltip>

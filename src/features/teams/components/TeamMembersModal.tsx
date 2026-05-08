@@ -115,6 +115,7 @@ export function TeamMembersModal({ opened, onClose, team }: TeamMembersModalProp
                     variant="subtle"
                     color="red"
                     size="sm"
+                    aria-label="Remover membro"
                     onClick={() => handleRemove(member.user_id)}
                     loading={removeMember.isPending}
                   >

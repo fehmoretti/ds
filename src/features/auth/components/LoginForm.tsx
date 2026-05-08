@@ -41,8 +41,8 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
 
     try {
       await signInWithEmail(data.email, data.password);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao fazer login');
+    } catch (_err) {
+      setError('Credenciais inválidas ou erro de conexão. Tente novamente.');
     } finally {
       setIsLoading(false);
     }

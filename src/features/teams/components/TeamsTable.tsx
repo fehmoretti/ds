@@ -33,7 +33,7 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
   if (error) {
     return (
       <Alert icon={<IconAlertCircle size={16} />} color="red" variant="light">
-        {error.message}
+        Erro ao carregar equipes. Tente novamente mais tarde.
       </Alert>
     );
   }
@@ -81,6 +81,7 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
                     <ActionIcon
                       variant="subtle"
                       color="blue"
+                      aria-label="Gerenciar membros"
                       onClick={() => onManageMembers(team)}
                     >
                       <IconUsers size={16} />
@@ -90,6 +91,7 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
                     <ActionIcon
                       variant="subtle"
                       color="gray"
+                      aria-label="Editar equipe"
                       onClick={() => onEdit(team)}
                     >
                       <IconEdit size={16} />
@@ -99,6 +101,7 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
                     <ActionIcon
                       variant="subtle"
                       color="red"
+                      aria-label="Excluir equipe"
                       onClick={() => onDelete(team)}
                     >
                       <IconTrash size={16} />

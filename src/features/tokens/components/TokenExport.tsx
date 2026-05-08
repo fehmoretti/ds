@@ -162,6 +162,7 @@ export function TokenExport() {
                     color={copied ? 'teal' : 'gray'}
                     onClick={copy}
                     size="sm"
+                    aria-label="Copiar código"
                   >
                     {copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
                   </ActionIcon>
@@ -169,7 +170,7 @@ export function TokenExport() {
               )}
             </CopyButton>
             <Tooltip label="Download">
-              <ActionIcon variant="subtle" color="gray" onClick={handleDownload} size="sm">
+              <ActionIcon variant="subtle" color="gray" onClick={handleDownload} size="sm" aria-label="Download">
                 <IconDownload size={14} />
               </ActionIcon>
             </Tooltip>

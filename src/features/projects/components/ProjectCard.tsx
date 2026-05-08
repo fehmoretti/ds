@@ -74,6 +74,7 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
                 variant="subtle"
                 color="blue"
                 size="sm"
+                aria-label="Gerenciar acesso"
                 onClick={(e) => {
                   e.stopPropagation();
                   onManageMembers(project);
@@ -91,6 +92,7 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
               variant="subtle"
               color="red"
               size="sm"
+              aria-label="Excluir projeto"
               onClick={(e) => {
                 e.stopPropagation();
                 onDelete(project.id);
