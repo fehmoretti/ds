@@ -162,26 +162,25 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
                 <IconArrowLeft size={18} />
               </ActionIcon>
             </Tooltip>
-            <Logo style={{ width: 22, height: 25 }} />
-            <Box
-              style={{
-                width: 36,
-                height: 36,
-                borderRadius: 8,
-                background: 'var(--surface-glass)',
-                border: '1px solid var(--border-subtle)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden',
-              }}
-            >
-              {logoUrl ? (
+            {logoUrl ? (
+              <Box
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 8,
+                  background: 'var(--surface-glass)',
+                  border: '1px solid var(--border-subtle)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                }}
+              >
                 <Image src={logoUrl} alt="Logo do projeto" w={36} h={36} fit="contain" />
-              ) : (
-                <IconPalette size={18} color="var(--mantine-color-brand-5)" />
-              )}
-            </Box>
+              </Box>
+            ) : (
+              <Logo style={{ width: 22, height: 25 }} />
+            )}
             <div>
               <Title order={5} fw={600} lh={1.2}>
                 {projectName}
