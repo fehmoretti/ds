@@ -148,6 +148,7 @@ export function TokenPreview() {
         gap="md"
         data-mantine-color-scheme={previewMode}
         style={{
+          colorScheme: previewMode,
           background: previewBg,
           borderRadius: 12,
           border: `1px solid ${previewBorder}`,
