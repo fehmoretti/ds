@@ -343,30 +343,42 @@ export function exportShadowsToFigma(tokens: DesignTokens): FigmaCollection {
 
   let idCounter = 118;
 
-  // Brand color from primitives (shade 6 = main brand)
-  const brandHex = tokens.colors.brand.shades[6] ?? tokens.colors.brand.baseHex;
-  const brandRgb = hexToRgb(brandHex);
+  // Shadow colors derived from primitive palettes (shade 6 = main color)
+  const shadowColorPalettes: [string, ColorPalette][] = [
+    ['brand', tokens.colors.brand],
+    ['accent', tokens.colors.accent],
+    ['tertiary', tokens.colors.tertiary],
+    ['success', tokens.colors.feedback.success],
+    ['error', tokens.colors.feedback.error],
+    ['warning', tokens.colors.feedback.warning],
+    ['info', tokens.colors.feedback.info],
+  ];
 
-  // Shadow color — brand (derived from brand primitive)
-  variables.push({
-    id: `VariableID:344:${idCounter}`,
-    name: 'color/brand',
-    description: 'Shadow color derived from brand primitive',
-    type: 'COLOR',
-    valuesByMode: {
-      [lightModeId]: { r: brandRgb.r, g: brandRgb.g, b: brandRgb.b, a: 0.2 },
-      [darkModeId]: { r: brandRgb.r, g: brandRgb.g, b: brandRgb.b, a: 0.4 },
-    },
-    resolvedValuesByMode: {
-      [lightModeId]: { resolvedValue: { r: brandRgb.r, g: brandRgb.g, b: brandRgb.b, a: 0.2 }, alias: null },
-      [darkModeId]: { resolvedValue: { r: brandRgb.r, g: brandRgb.g, b: brandRgb.b, a: 0.4 }, alias: null },
-    },
-    scopes: ['EFFECT_COLOR'],
-    hiddenFromPublishing: false,
-    codeSyntax: {},
-  });
-  variableIds.push(`VariableID:344:${idCounter}`);
-  idCounter++;
+  for (const [name, palette] of shadowColorPalettes) {
+    const hex = palette.shades[6] ?? palette.baseHex;
+    const rgb = hexToRgb(hex);
+    const varId = `VariableID:344:${idCounter}`;
+
+    variables.push({
+      id: varId,
+      name: `color/${name}`,
+      description: `Shadow color derived from ${name} primitive`,
+      type: 'COLOR',
+      valuesByMode: {
+        [lightModeId]: { r: rgb.r, g: rgb.g, b: rgb.b, a: 0.2 },
+        [darkModeId]: { r: rgb.r, g: rgb.g, b: rgb.b, a: 0.4 },
+      },
+      resolvedValuesByMode: {
+        [lightModeId]: { resolvedValue: { r: rgb.r, g: rgb.g, b: rgb.b, a: 0.2 }, alias: null },
+        [darkModeId]: { resolvedValue: { r: rgb.r, g: rgb.g, b: rgb.b, a: 0.4 }, alias: null },
+      },
+      scopes: ['EFFECT_COLOR'],
+      hiddenFromPublishing: false,
+      codeSyntax: {},
+    });
+    variableIds.push(varId);
+    idCounter++;
+  }
 
   // Shadow color — neutral
   variables.push({
