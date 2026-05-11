@@ -27,17 +27,14 @@ import {
   IconPlus,
   IconArrowRight,
   IconDots,
-  IconShieldCheck,
   IconWand,
 } from '@tabler/icons-react';
-import { useTokens } from '@/providers';
+import { useTokens, useWcagMode } from '@/providers';
 import { applyContrastAdjustments, countPaletteAdjustments } from '@/lib/semantic-tokens';
 import { getMantineButtonTokens } from '@/lib/mantine-tokens';
 import type { WcagTarget } from '@/lib/contrast';
 import { PreviewFormElements, PreviewContent, PreviewDataAndLayout } from './preview';
 import type { PreviewStyleProps } from './preview';
-
-type ContrastMode = 'none' | 'AA' | 'AAA';
 
 function ColorSwatchPreview({ color, label }: { color: string; label: string }) {
   return (
@@ -189,7 +186,7 @@ export function TokenPreview() {
   const { tokens } = useTokens();
   const { radius, typography } = tokens;
   const [previewMode, setPreviewMode] = useState<'light' | 'dark'>('dark');
-  const [contrastMode, setContrastMode] = useState<ContrastMode>('none');
+  const { mode: contrastMode } = useWcagMode();
   const previewRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -286,22 +283,9 @@ export function TokenPreview() {
         <Group gap="md" wrap="nowrap" align="center">
           {contrastMode !== 'none' && adjustmentCount > 0 && (
             <Badge color="brand" variant="filled" leftSection={<IconWand size={12} />}>
-              {adjustmentCount} tons ajustados
+              {adjustmentCount} tons ajustados ({contrastMode})
             </Badge>
           )}
-          <Group gap={6} wrap="nowrap" align="center">
-            <IconShieldCheck size={14} style={{ opacity: 0.7 }} />
-            <SegmentedControl
-              value={contrastMode}
-              onChange={(v) => setContrastMode(v as ContrastMode)}
-              size="xs"
-              data={[
-                { value: 'none', label: 'Original' },
-                { value: 'AA', label: 'AA' },
-                { value: 'AAA', label: 'AAA' },
-              ]}
-            />
-          </Group>
           <SegmentedControl
             value={previewMode}
             onChange={(v) => setPreviewMode(v as 'light' | 'dark')}

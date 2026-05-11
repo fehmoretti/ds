@@ -26,7 +26,7 @@ import {
   IconWand,
   IconArrowRight,
 } from '@tabler/icons-react';
-import { useTokens } from '@/providers';
+import { useTokens, useWcagMode } from '@/providers';
 import { classifyContrast, formatRatio, type WcagTarget } from '@/lib/contrast';
 import {
   deriveSemanticTokens,
@@ -212,7 +212,11 @@ function PaletteDiff({ name, original, adjusted }: { name: string; original: Col
 export function ContrastChecker() {
   const { tokens, dispatch } = useTokens();
   const [mode, setMode] = useState<SemanticMode>('light');
-  const [target, setTarget] = useState<WcagTarget>('AA');
+  const { mode: globalMode } = useWcagMode();
+  // Local classification target is fully driven by the global selector. When
+  // the user picks 'none' (export with no adjustment) we still need a baseline
+  // for pass/fail classification, so default to AA.
+  const target: WcagTarget = globalMode === 'none' ? 'AA' : globalMode;
 
   const derived = useMemo(
     () => deriveSemanticTokens(tokens.colors, mode, target),
@@ -320,18 +324,6 @@ export function ContrastChecker() {
                 data={[
                   { value: 'light', label: 'Light' },
                   { value: 'dark', label: 'Dark' },
-                ]}
-              />
-            </Stack>
-            <Stack gap={4}>
-              <Text size="xs" c="dimmed" tt="uppercase" fw={600}>Nível</Text>
-              <SegmentedControl
-                value={target}
-                onChange={(v) => setTarget(v as WcagTarget)}
-                size="xs"
-                data={[
-                  { value: 'AA', label: 'AA' },
-                  { value: 'AAA', label: 'AAA' },
                 ]}
               />
             </Stack>
