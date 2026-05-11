@@ -136,9 +136,12 @@ export function generateGrayPalette(hue: number = 220): [string, string, string,
 }
 
 /**
- * Convert hex to Figma RGBA format (0-1 range)
+ * Convert hex to Figma RGBA format (0-1 range). Accepts 6-char (#RRGGBB) or
+ * 8-char (#RRGGBBAA) hex; defaults alpha to 1 when not provided.
  */
 export function hexToFigmaRgba(hex: string): { r: number; g: number; b: number; a: number } {
   const { r, g, b } = hexToRgb(hex);
-  return { r, g, b, a: 1 };
+  const cleaned = hex.replace('#', '');
+  const a = cleaned.length >= 8 ? parseInt(cleaned.slice(6, 8), 16) / 255 : 1;
+  return { r, g, b, a };
 }

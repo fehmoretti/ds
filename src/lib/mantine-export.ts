@@ -9,6 +9,7 @@ interface ComponentDefaultProps {
 
 export interface MantineThemeExport {
   primaryColor: string;
+  primaryShade: number;
   fontFamily: string;
   fontFamilyMonospace: string;
   defaultRadius: string;
@@ -29,6 +30,7 @@ export function exportToMantineTheme(tokens: DesignTokens): MantineThemeExport {
 
   return {
     primaryColor: 'brand',
+    primaryShade: 5,
     fontFamily: `${typography.fonts.base}, sans-serif`,
     fontFamilyMonospace: `${typography.fonts.mono}, monospace`,
     defaultRadius: 'md',
@@ -112,6 +114,7 @@ const tertiary: MantineColorsTuple = ${JSON.stringify(tokens.colors.tertiary.sha
 
 export const theme = createTheme({
   primaryColor: '${theme.primaryColor}',
+  primaryShade: ${theme.primaryShade},
   fontFamily: '${theme.fontFamily}',
   fontFamilyMonospace: '${theme.fontFamilyMonospace}',
   defaultRadius: '${theme.defaultRadius}',

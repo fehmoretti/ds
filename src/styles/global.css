@@ -796,5 +796,91 @@ body {
       background-color: var(--mantine-color-gray-0);
 }
 
+/* === PREVIEW LIGHT MODE: checked/active state specificity fixes ===
+   The scoped cssVariablesSelector generates rules with specificity (0,3,0)
+   that override component :checked state rules. These overrides restore
+   the correct brand color for checked/active states in light mode. */
 
+/* Switch: checked track must use brand color (not for disabled) */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Switch-input:checked:not(:disabled) + .mantine-Switch-track {
+  --switch-bg: var(--switch-color);
+  --switch-text-color: var(--mantine-color-white);
+}
+
+/* Checkbox: checked/indeterminate input must use brand color (not for disabled) */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Checkbox-input:checked:not(:disabled),
+.preview-root[data-mantine-color-scheme='light'] .mantine-Checkbox-input[data-indeterminate]:not(:disabled) {
+  background-color: var(--checkbox-color);
+  border-color: var(--checkbox-color);
+}
+
+/* Radio (input): checked must use brand color (not for disabled) */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Radio-radio:checked:not(:disabled) {
+  background-color: var(--radio-color, var(--mantine-primary-color-filled));
+  border-color: var(--radio-color, var(--mantine-primary-color-filled));
+}
+
+/* Chip: checked label must use brand styling (not for disabled) */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Chip-label[data-checked]:not([data-disabled]) {
+  --chip-icon-color: var(--chip-color);
+  background-color: var(--chip-bg);
+  color: var(--chip-color);
+  border: var(--chip-bd);
+}
+
+/* Rating: filled stars must use --rating-color (brand) */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Rating-starSymbol[data-filled] {
+  fill: var(--rating-color);
+  stroke: var(--rating-color);
+}
+
+/* Timeline: active bullets must use brand color */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Timeline-itemBullet[data-with-child][data-active] {
+  background-color: var(--tl-color, var(--mantine-primary-color-filled));
+  border-color: var(--tl-color, var(--mantine-primary-color-filled));
+  color: var(--mantine-color-white);
+}
+.preview-root[data-mantine-color-scheme='light'] .mantine-Timeline-itemBullet[data-with-child]:not([data-active]) {
+  background-color: var(--mantine-color-body);
+  border-color: var(--mantine-color-gray-3);
+}
+.preview-root[data-mantine-color-scheme='light'] .mantine-Timeline-item[data-line-active]::before {
+  border-color: var(--tl-color, var(--mantine-primary-color-filled));
+}
+
+/* Stepper: active/completed step icon */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Stepper-stepIcon[data-progress],
+.preview-root[data-mantine-color-scheme='light'] .mantine-Stepper-stepIcon[data-completed] {
+  background-color: var(--mantine-primary-color-filled);
+  border-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-color-white);
+}
+
+/* Pagination: active control */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Pagination-control[data-active] {
+  background-color: var(--pagination-active-bg, var(--mantine-primary-color-filled));
+  border-color: var(--pagination-active-bg, var(--mantine-primary-color-filled));
+  color: var(--mantine-color-white);
+}
+
+/* Tabs: active tab indicator (default & outline variants) */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Tabs-tab[data-active] {
+  border-color: var(--tabs-color, var(--mantine-primary-color-filled));
+  color: var(--tabs-color, var(--mantine-primary-color-filled));
+}
+/* Tabs pills variant */
+.preview-root[data-mantine-color-scheme='light'] .mantine-Tabs-root[data-variant='pills'] .mantine-Tabs-tab[data-active] {
+  background-color: var(--tabs-color, var(--mantine-primary-color-filled));
+  color: var(--mantine-color-white);
+}
+
+/* NavLink: active state */
+.preview-root[data-mantine-color-scheme='light'] .mantine-NavLink-root[data-active] {
+  background-color: var(--nl-bg, var(--mantine-color-brand-light));
+  color: var(--nl-color, var(--mantine-color-brand-light-color));
+}
+.preview-root[data-mantine-color-scheme='light'] .mantine-NavLink-root[data-active][data-variant='filled'] {
+  background-color: var(--mantine-primary-color-filled);
+  color: var(--mantine-color-white);
+}
 

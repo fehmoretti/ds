@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Stack,
   Text,
@@ -16,20 +16,32 @@ import {
   Anchor,
   List,
   ThemeIcon,
+  Badge,
 } from '@mantine/core';
-import { IconCopy, IconCheck, IconDownload, IconFileZip, IconBrandFigma, IconInfoCircle } from '@tabler/icons-react';
-import JSZip from 'jszip';
+import {
+  IconCopy,
+  IconCheck,
+  IconDownload,
+  IconFileZip,
+  IconBrandFigma,
+  IconInfoCircle,
+  IconShieldCheck,
+  IconWand,
+} from '@tabler/icons-react';
 import { useTokens } from '@/providers';
 import { exportToMantineCode } from '@/lib/mantine-export';
 import {
-  exportColorsToFigma,
   exportRadiusToFigma,
   exportSpacingToFigma,
   exportTypographyToFigma,
   exportShadowsToFigma,
 } from '@/lib/figma-export';
+import { exportFigmaColorsAdvanced } from '@/lib/figma-color-export';
+import { applyContrastAdjustments, countPaletteAdjustments } from '@/lib/semantic-tokens';
+import type { WcagTarget } from '@/lib/contrast';
 
 type ExportFormat = 'mantine' | 'figma-colors' | 'figma-radius' | 'figma-spacing' | 'figma-typography' | 'figma-shadows';
+type ContrastMode = 'none' | 'AA' | 'AAA';
 
 function downloadJson(data: unknown, filename: string) {
   const json = JSON.stringify(data, null, 2);
@@ -59,69 +71,71 @@ function downloadText(content: string, filename: string) {
 export function TokenExport() {
   const { tokens } = useTokens();
   const [format, setFormat] = useState<ExportFormat>('mantine');
+  const [contrastMode, setContrastMode] = useState<ContrastMode>('AA');
+
+  /**
+   * Tokens that will actually be exported. When the user picks AA or AAA, palettes are
+   * passed through `applyContrastAdjustments` (which runs both light and dark passes),
+   * so the resulting Figma JSON and Mantine theme already carry the validated hex values.
+   */
+  const exportTokens = useMemo(() => {
+    if (contrastMode === 'none') return tokens;
+    return applyContrastAdjustments(tokens, contrastMode as WcagTarget);
+  }, [tokens, contrastMode]);
+
+  const adjustmentCount = useMemo(
+    () => (contrastMode === 'none' ? 0 : countPaletteAdjustments(tokens, exportTokens)),
+    [tokens, exportTokens, contrastMode],
+  );
 
   const getExportContent = (): string => {
     switch (format) {
       case 'mantine':
-        return exportToMantineCode(tokens);
+        return exportToMantineCode(exportTokens);
       case 'figma-colors':
-        return JSON.stringify(exportColorsToFigma(tokens), null, 2);
+        return JSON.stringify(exportFigmaColorsAdvanced(exportTokens), null, 2);
       case 'figma-radius':
-        return JSON.stringify(exportRadiusToFigma(tokens), null, 2);
+        return JSON.stringify(exportRadiusToFigma(exportTokens), null, 2);
       case 'figma-spacing':
-        return JSON.stringify(exportSpacingToFigma(tokens), null, 2);
+        return JSON.stringify(exportSpacingToFigma(exportTokens), null, 2);
       case 'figma-typography':
-        return JSON.stringify(exportTypographyToFigma(tokens), null, 2);
+        return JSON.stringify(exportTypographyToFigma(exportTokens), null, 2);
       case 'figma-shadows':
-        return JSON.stringify(exportShadowsToFigma(tokens), null, 2);
+        return JSON.stringify(exportShadowsToFigma(exportTokens), null, 2);
       default:
         return '';
     }
   };
 
+  const fileSuffix = contrastMode === 'none' ? '' : `-wcag-${contrastMode.toLowerCase()}`;
+
   const handleDownload = () => {
     const content = getExportContent();
     switch (format) {
       case 'mantine':
-        downloadText(content, 'theme.ts');
+        downloadText(content, `theme${fileSuffix}.ts`);
         break;
       case 'figma-colors':
-        downloadJson(exportColorsToFigma(tokens), 'figma-colors.json');
+        downloadJson(exportFigmaColorsAdvanced(exportTokens), `figma-colors${fileSuffix}.json`);
         break;
       case 'figma-radius':
-        downloadJson(exportRadiusToFigma(tokens), 'figma-radius.json');
+        downloadJson(exportRadiusToFigma(exportTokens), `figma-radius${fileSuffix}.json`);
         break;
       case 'figma-spacing':
-        downloadJson(exportSpacingToFigma(tokens), 'figma-spacing.json');
+        downloadJson(exportSpacingToFigma(exportTokens), `figma-spacing${fileSuffix}.json`);
         break;
       case 'figma-typography':
-        downloadJson(exportTypographyToFigma(tokens), 'figma-typography.json');
+        downloadJson(exportTypographyToFigma(exportTokens), `figma-typography${fileSuffix}.json`);
         break;
       case 'figma-shadows':
-        downloadJson(exportShadowsToFigma(tokens), 'figma-shadows.json');
+        downloadJson(exportShadowsToFigma(exportTokens), `figma-shadows${fileSuffix}.json`);
         break;
     }
   };
 
   const handleDownloadAll = async () => {
-    const zip = new JSZip();
-
-    zip.file('theme.ts', exportToMantineCode(tokens));
-    zip.file('figma-colors.json', JSON.stringify(exportColorsToFigma(tokens), null, 2));
-    zip.file('figma-radius.json', JSON.stringify(exportRadiusToFigma(tokens), null, 2));
-    zip.file('figma-spacing.json', JSON.stringify(exportSpacingToFigma(tokens), null, 2));
-    zip.file('figma-typography.json', JSON.stringify(exportTypographyToFigma(tokens), null, 2));
-    zip.file('figma-shadows.json', JSON.stringify(exportShadowsToFigma(tokens), null, 2));
-
-    const blob = await zip.generateAsync({ type: 'blob' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'design-tokens.zip';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const { downloadProjectArchive } = await import('@/lib/project-export');
+    await downloadProjectArchive(exportTokens, { fileSuffix });
   };
 
   const content = getExportContent();
@@ -136,6 +150,56 @@ export function TokenExport() {
           Exporte seus tokens como código Mantine ou JSON para Figma Variables.
         </Text>
       </div>
+
+      <Paper withBorder p="md" radius="md">
+        <Group justify="space-between" align="flex-end" wrap="wrap" gap="md">
+          <Stack gap={4} style={{ flex: 1, minWidth: 280 }}>
+            <Group gap="xs">
+              <IconShieldCheck size={18} />
+              <Text size="sm" fw={600}>
+                Conformidade WCAG 2.1
+              </Text>
+            </Group>
+            <Text size="xs" c="dimmed">
+              Ajusta automaticamente os tons das paletas (mantendo hue/saturação) para
+              atingir o contraste exigido em <b>light e dark</b> antes de exportar. O nível
+              escolhido aqui afeta tanto o JSON do Figma quanto o tema Mantine gerado.
+            </Text>
+          </Stack>
+          <Stack gap={4}>
+            <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
+              Nível alvo
+            </Text>
+            <SegmentedControl
+              value={contrastMode}
+              onChange={(v) => setContrastMode(v as ContrastMode)}
+              size="xs"
+              data={[
+                { value: 'none', label: 'Original' },
+                { value: 'AA', label: 'WCAG AA' },
+                { value: 'AAA', label: 'WCAG AAA' },
+              ]}
+            />
+          </Stack>
+        </Group>
+        {contrastMode !== 'none' && adjustmentCount > 0 && (
+          <Group mt="sm" gap="xs">
+            <Badge color="brand" variant="filled" leftSection={<IconWand size={12} />}>
+              {adjustmentCount} tons ajustados para atingir {contrastMode}
+            </Badge>
+            <Text size="xs" c="dimmed">
+              Os arquivos exportados terão o sufixo <code>{fileSuffix}</code>.
+            </Text>
+          </Group>
+        )}
+        {contrastMode !== 'none' && adjustmentCount === 0 && (
+          <Group mt="sm" gap="xs">
+            <Badge color="green" variant="light" leftSection={<IconCheck size={12} />}>
+              Paletas atuais já atendem ao nível {contrastMode}
+            </Badge>
+          </Group>
+        )}
+      </Paper>
 
       {format.startsWith('figma') && (
         <Alert

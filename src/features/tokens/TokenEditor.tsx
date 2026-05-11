@@ -30,6 +30,7 @@ import {
   IconAlertCircle,
   IconCheck,
   IconSettings,
+  IconShieldCheck,
 } from '@tabler/icons-react';
 import Logo from '@/assets/logo.svg?react';
 import { useTokens } from '@/providers';
@@ -44,9 +45,10 @@ import {
   TokenPreview,
   TokenExport,
   ProjectSettings,
+  ContrastChecker,
 } from './components';
 
-type TabValue = 'settings' | 'colors' | 'radius' | 'typography' | 'spacing' | 'shadows' | 'preview' | 'export';
+type TabValue = 'settings' | 'colors' | 'radius' | 'typography' | 'spacing' | 'shadows' | 'preview' | 'contrast' | 'export';
 
 interface TokenEditorProps {
   projectId: string;
@@ -255,6 +257,9 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
               <Tabs.Tab value="preview" leftSection={<IconEye size={15} />}>
                 Preview
               </Tabs.Tab>
+              <Tabs.Tab value="contrast" leftSection={<IconShieldCheck size={15} />}>
+                Contraste
+              </Tabs.Tab>
               <Tabs.Tab value="export" leftSection={<IconDownload size={15} />}>
                 Exportar
               </Tabs.Tab>
@@ -291,6 +296,10 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
 
               <Tabs.Panel value="preview">
                 <TokenPreview />
+              </Tabs.Panel>
+
+              <Tabs.Panel value="contrast">
+                <ContrastChecker />
               </Tabs.Panel>
 
               <Tabs.Panel value="export">

@@ -21,7 +21,7 @@ import { IconSearch, IconLock } from '@tabler/icons-react';
 import type { PreviewStyleProps } from './PreviewTypes';
 
 export function PreviewFormElements(props: PreviewStyleProps) {
-  const { brandColor, inputRadius, fontFamily, previewDimmed, sectionStyle, sectionTitleProps } = props;
+  const { inputRadius, fontFamily, previewDimmed, sectionStyle, sectionTitleProps } = props;
 
   return (
     <>
@@ -89,25 +89,25 @@ export function PreviewFormElements(props: PreviewStyleProps) {
         <SimpleGrid cols={{ base: 1, md: 3 }} spacing="md">
           <Stack gap="xs">
             <Text size="xs" fw={500} style={{ color: previewDimmed }}>Checkbox</Text>
-            <Checkbox label="Opção ativa" defaultChecked color={brandColor} />
-            <Checkbox label="Opção inativa" color={brandColor} />
-            <Checkbox label="Indeterminado" indeterminate color={brandColor} />
-            <Checkbox label="Disabled" disabled defaultChecked />
+            <Checkbox label="Opção ativa" checked color="brand" readOnly />
+            <Checkbox label="Opção inativa" color="brand" readOnly />
+            <Checkbox label="Indeterminado" indeterminate color="brand" readOnly />
+            <Checkbox label="Disabled" disabled checked readOnly />
           </Stack>
           <Stack gap="xs">
             <Text size="xs" fw={500} style={{ color: previewDimmed }}>Switch</Text>
-            <Switch label="Ativado" defaultChecked color={brandColor} />
-            <Switch label="Desativado" color={brandColor} />
-            <Switch label="Com tamanho LG" size="lg" color={brandColor} />
-            <Switch label="Disabled" disabled defaultChecked />
+            <Switch label="Ativado" checked color="brand" readOnly />
+            <Switch label="Desativado" color="brand" readOnly />
+            <Switch label="Com tamanho LG" size="lg" color="brand" readOnly />
+            <Switch label="Disabled" disabled checked readOnly />
           </Stack>
           <Stack gap="xs">
             <Text size="xs" fw={500} style={{ color: previewDimmed }}>Radio</Text>
-            <Radio.Group defaultValue="option1">
+            <Radio.Group value="option1">
               <Stack gap="xs">
-                <Radio value="option1" label="Opção 1" color={brandColor} />
-                <Radio value="option2" label="Opção 2" color={brandColor} />
-                <Radio value="option3" label="Opção 3" color={brandColor} />
+                <Radio value="option1" label="Opção 1" color="brand" />
+                <Radio value="option2" label="Opção 2" color="brand" />
+                <Radio value="option3" label="Opção 3" color="brand" />
               </Stack>
             </Radio.Group>
           </Stack>
@@ -120,13 +120,13 @@ export function PreviewFormElements(props: PreviewStyleProps) {
         <Stack gap="md">
           <div>
             <Text size="xs" mb={4} style={{ color: previewDimmed }}>Slider</Text>
-            <Slider defaultValue={40} color={brandColor} marks={[{ value: 20 }, { value: 50 }, { value: 80 }]} />
+            <Slider defaultValue={40} color="brand" marks={[{ value: 20 }, { value: 50 }, { value: 80 }]} />
           </div>
           <div>
             <Text size="xs" mb={4} style={{ color: previewDimmed }}>Slider com labels</Text>
             <Slider
               defaultValue={60}
-              color={brandColor}
+              color="brand"
               marks={[
                 { value: 0, label: '0%' },
                 { value: 25, label: '25%' },
@@ -144,10 +144,10 @@ export function PreviewFormElements(props: PreviewStyleProps) {
           <div>
             <Text size="xs" mb={4} style={{ color: previewDimmed }}>Chips</Text>
             <Group gap="xs">
-              <Chip defaultChecked color={brandColor}>React</Chip>
-              <Chip color={brandColor}>Vue</Chip>
-              <Chip color={brandColor}>Angular</Chip>
-              <Chip color={brandColor}>Svelte</Chip>
+              <Chip checked color="brand">React</Chip>
+              <Chip color="brand">Vue</Chip>
+              <Chip color="brand">Angular</Chip>
+              <Chip color="brand">Svelte</Chip>
             </Group>
           </div>
         </Stack>

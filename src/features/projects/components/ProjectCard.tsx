@@ -8,8 +8,12 @@ import {
   Box,
   Image,
 } from '@mantine/core';
-import { IconTrash, IconCalendar, IconPalette, IconUsers } from '@tabler/icons-react';
+import { IconTrash, IconCalendar, IconPalette, IconUsers, IconDownload } from '@tabler/icons-react';
+import { useState } from 'react';
+import { notifications } from '@mantine/notifications';
 import type { Project } from '@/services/projects.service';
+import type { DesignTokens } from '@/types';
+import { downloadProjectArchive } from '@/lib/project-export';
 
 interface ProjectCardProps {
   project: Project;
@@ -19,6 +23,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: ProjectCardProps) {
+  const [exporting, setExporting] = useState(false);
   const updatedAt = new Date(project.updated_at).toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: 'short',
@@ -26,6 +31,31 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
   });
 
   const hasTokens = project.tokens_data !== null;
+
+  const handleExportAll = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!hasTokens || exporting) return;
+    setExporting(true);
+    try {
+      // tokens_data is stored as a JSON blob; assume it matches DesignTokens shape (it's
+      // produced and consumed by this app via saveProjectTokens / TokensProvider).
+      const tokens = project.tokens_data as unknown as DesignTokens;
+      await downloadProjectArchive(tokens, { archiveBaseName: project.name });
+      notifications.show({
+        title: 'Exportação concluída',
+        message: `Arquivos do projeto "${project.name}" baixados.`,
+        color: 'brand',
+      });
+    } catch {
+      notifications.show({
+        title: 'Falha ao exportar',
+        message: 'Não foi possível gerar o arquivo de exportação.',
+        color: 'red',
+      });
+    } finally {
+      setExporting(false);
+    }
+  };
 
   return (
     <Card
@@ -81,6 +111,23 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
           </Text>
         </Group>
         <Group gap={4}>
+          {hasTokens && (
+            <Tooltip label="Exportar todos os arquivos">
+              <ActionIcon
+                variant="subtle"
+                color="brand"
+                size="sm"
+                aria-label="Exportar todos os arquivos do projeto"
+                loading={exporting}
+                onClick={handleExportAll}
+                style={{ opacity: 0.6, transition: 'opacity 150ms' }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.6'; }}
+              >
+                <IconDownload size={14} />
+              </ActionIcon>
+            </Tooltip>
+          )}
           {onManageMembers && (
             <Tooltip label="Gerenciar acesso">
               <ActionIcon

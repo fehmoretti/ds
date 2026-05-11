@@ -19,6 +19,7 @@ export interface PreviewStyleProps {
   previewBorder: string;
   previewCardBg: string;
   previewShadowAlpha: string;
+  isLight: boolean;
   sectionStyle: CSSProperties;
   sectionTitleProps: {
     size: 'sm';

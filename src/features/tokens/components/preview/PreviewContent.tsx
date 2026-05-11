@@ -69,7 +69,7 @@ export function PreviewContent(props: PreviewStyleProps) {
           <Code style={{ fontFamily: monoFamily }}>{'const token = "code block";'}</Code>
           <Kbd>Ctrl + K</Kbd>
           <Anchor href="#" style={{ color: brandColor }}>Link de exemplo</Anchor>
-          <Blockquote color={brandColor} icon={<IconQuote size={16} />} style={{ color: previewTextColor }}>
+          <Blockquote color="brand" icon={<IconQuote size={16} />} style={{ color: previewTextColor }}>
             Citação de exemplo com estilo do design system.
           </Blockquote>
         </Stack>
@@ -114,28 +114,28 @@ export function PreviewContent(props: PreviewStyleProps) {
         <Text {...sectionTitleProps}>Avatar & Indicator</Text>
         <Stack gap="md">
           <Group gap="sm">
-            <Avatar color={brandColor} radius="xl">AB</Avatar>
-            <Avatar color={accentColor} radius="xl">CD</Avatar>
-            <Avatar color={successColor} radius="xl">EF</Avatar>
-            <Avatar color={errorColor} radius="xl">GH</Avatar>
-            <Avatar radius="xl"><IconUser size={20} /></Avatar>
+            <Avatar variant="filled" color="brand" radius="xl">AB</Avatar>
+            <Avatar variant="filled" color="accent" radius="xl">CD</Avatar>
+            <Avatar variant="filled" color={successColor} radius="xl">EF</Avatar>
+            <Avatar variant="filled" color={errorColor} radius="xl">GH</Avatar>
+            <Avatar variant="filled" radius="xl"><IconUser size={20} /></Avatar>
           </Group>
           <Group gap="sm">
-            <Avatar size="xs" color={brandColor} radius="xl">A</Avatar>
-            <Avatar size="sm" color={brandColor} radius="xl">B</Avatar>
-            <Avatar size="md" color={brandColor} radius="xl">C</Avatar>
-            <Avatar size="lg" color={brandColor} radius="xl">D</Avatar>
-            <Avatar size="xl" color={brandColor} radius="xl">E</Avatar>
+            <Avatar variant="filled" size="xs" color="brand" radius="xl">A</Avatar>
+            <Avatar variant="filled" size="sm" color="brand" radius="xl">B</Avatar>
+            <Avatar variant="filled" size="md" color="brand" radius="xl">C</Avatar>
+            <Avatar variant="filled" size="lg" color="brand" radius="xl">D</Avatar>
+            <Avatar variant="filled" size="xl" color="brand" radius="xl">E</Avatar>
           </Group>
           <Group gap="md">
             <Indicator color={successColor} processing>
-              <Avatar color={brandColor} radius="xl">ON</Avatar>
+              <Avatar variant="filled" color="brand" radius="xl">ON</Avatar>
             </Indicator>
             <Indicator color={errorColor}>
-              <Avatar color={grayColor} radius="xl">OF</Avatar>
+              <Avatar variant="filled" color="gray" radius="xl">OF</Avatar>
             </Indicator>
             <Indicator color={warningColor} label="3" size={16}>
-              <Avatar color={accentColor} radius="xl"><IconBell size={20} /></Avatar>
+              <Avatar variant="filled" color="accent" radius="xl"><IconBell size={20} /></Avatar>
             </Indicator>
           </Group>
         </Stack>
@@ -145,13 +145,13 @@ export function PreviewContent(props: PreviewStyleProps) {
       <Paper p="md" style={sectionStyle}>
         <Text {...sectionTitleProps}>ThemeIcon</Text>
         <Group gap="sm" wrap="wrap">
-          <ThemeIcon variant="filled" color={brandColor} size="lg" radius={buttonRadius}><IconHeart size={18} /></ThemeIcon>
+          <ThemeIcon variant="filled" color="brand" size="lg" radius={buttonRadius}><IconHeart size={18} /></ThemeIcon>
           <ThemeIcon variant="light" color="blue" size="lg" radius={buttonRadius}><IconStar size={18} /></ThemeIcon>
-          <ThemeIcon variant="outline" color={brandColor} size="lg" radius={buttonRadius}><IconSettings size={18} /></ThemeIcon>
+          <ThemeIcon variant="outline" color="brand" size="lg" radius={buttonRadius}><IconSettings size={18} /></ThemeIcon>
           <ThemeIcon variant="filled" color={successColor} size="lg" radius={buttonRadius}><IconCheck size={18} /></ThemeIcon>
           <ThemeIcon variant="filled" color={errorColor} size="lg" radius={buttonRadius}><IconX size={18} /></ThemeIcon>
           <ThemeIcon variant="filled" color={warningColor} size="lg" radius={buttonRadius}><IconAlertCircle size={18} /></ThemeIcon>
-          <ThemeIcon variant="filled" color={accentColor} size="xl" radius={buttonRadius}><IconDatabase size={22} /></ThemeIcon>
+          <ThemeIcon variant="filled" color="accent" size="xl" radius={buttonRadius}><IconDatabase size={22} /></ThemeIcon>
         </Group>
       </Paper>
 
@@ -213,7 +213,7 @@ export function PreviewContent(props: PreviewStyleProps) {
 
           <Card shadow="sm" padding="lg" radius={cardRadius} style={{ background: previewBg, border: `1px solid ${previewBorder}` }}>
             <Group>
-              <Avatar color={accentColor} radius="xl">P</Avatar>
+              <Avatar color="accent" radius="xl">P</Avatar>
               <div>
                 <Text size="sm" fw={500} style={{ color: previewTextColor }}>Projeto Alpha</Text>
                 <Text size="xs" style={{ color: previewDimmed }}>Atualizado há 2 dias</Text>
@@ -231,13 +231,13 @@ export function PreviewContent(props: PreviewStyleProps) {
           <Card shadow="sm" padding="lg" radius={cardRadius} style={{ background: previewBg, border: `1px solid ${previewBorder}` }}>
             <Stack gap="sm">
               <Group justify="space-between">
-                <ThemeIcon variant="light" color={brandColor} size="lg" radius={buttonRadius}><IconDatabase size={18} /></ThemeIcon>
+                <ThemeIcon variant="light" color="brand" size="lg" radius={buttonRadius}><IconDatabase size={18} /></ThemeIcon>
                 <ActionIconPreview previewDimmed={previewDimmed} />
               </Group>
               <Text fw={500} style={{ color: previewTextColor }}>Métricas</Text>
               <Text size="xs" style={{ color: previewDimmed }}>Últimas 24 horas</Text>
               <Title order={2} style={{ color: previewTextColor }}>1,234</Title>
-              <Progress value={65} color={brandColor} size="sm" radius="xl" />
+              <Progress value={65} color="brand" size="sm" radius="xl" />
               <Text size="xs" style={{ color: successColor }}>+12% vs ontem</Text>
             </Stack>
           </Card>
@@ -251,7 +251,7 @@ export function PreviewContent(props: PreviewStyleProps) {
           <Group gap="xl">
             <Stack gap={4}>
               <Text size="xs" style={{ color: previewDimmed }}>Rating</Text>
-              <Rating defaultValue={3} color={brandColor} />
+              <Rating defaultValue={3} color="brand" />
             </Stack>
             <Stack gap={4}>
               <Text size="xs" style={{ color: previewDimmed }}>Rating (readonly)</Text>
