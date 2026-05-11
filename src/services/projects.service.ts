@@ -1,12 +1,13 @@
 import { supabase, type Tables, type TablesInsert, type TablesUpdate } from '@/lib/supabase';
-import type { Json } from '@/lib/supabase/database.types';
+import type { Enums, Json } from '@/lib/supabase/database.types';
 
 type Project = Tables<'projects'>;
 type ProjectInsert = TablesInsert<'projects'>;
 type ProjectUpdate = TablesUpdate<'projects'>;
 type ProjectMember = Tables<'project_members'>;
+type ProjectRole = Enums<'project_role'>;
 
-export type { Project, ProjectInsert, ProjectUpdate, ProjectMember };
+export type { Project, ProjectInsert, ProjectUpdate, ProjectMember, ProjectRole };
 
 /**
  * Fetch projects for the current user.
@@ -115,7 +116,7 @@ export async function fetchProjectMembers(projectId: string): Promise<(ProjectMe
 export async function addProjectMember(
   projectId: string,
   email: string,
-  role: string = 'editor',
+  role: ProjectRole = 'editor',
 ): Promise<ProjectMember> {
   // Find user by email
   const { data: profile, error: profileError } = await supabase
@@ -172,7 +173,7 @@ export async function removeProjectMember(
 export async function addProjectMemberById(
   projectId: string,
   userId: string,
-  role: string = 'editor',
+  role: ProjectRole = 'editor',
 ): Promise<void> {
   const { error } = await supabase
     .from('project_members')
@@ -226,7 +227,7 @@ export async function syncProjectMembers(
 
   // Add new members
   if (toAdd.length > 0) {
-    const inserts = toAdd.map((userId) => ({
+    const inserts: TablesInsert<'project_members'>[] = toAdd.map((userId) => ({
       project_id: projectId,
       user_id: userId,
       role: 'editor',
