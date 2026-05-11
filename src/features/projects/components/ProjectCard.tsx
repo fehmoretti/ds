@@ -7,7 +7,6 @@ import {
   Badge,
   Box,
   Image,
-  Menu,
 } from '@mantine/core';
 import { IconTrash, IconCalendar, IconPalette, IconUsers, IconDownload } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -16,9 +15,7 @@ import type { Project } from '@/services/projects.service';
 import type { DesignTokens } from '@/types';
 import { downloadProjectArchive } from '@/lib/project-export';
 import { applyContrastAdjustments } from '@/lib/semantic-tokens';
-import type { WcagTarget } from '@/lib/contrast';
-
-type ContrastMode = 'none' | WcagTarget;
+import { useWcagMode } from '@/providers';
 
 interface ProjectCardProps {
   project: Project;
@@ -29,6 +26,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: ProjectCardProps) {
   const [exporting, setExporting] = useState(false);
+  const { mode, fileSuffix } = useWcagMode();
   const updatedAt = new Date(project.updated_at).toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: 'short',
@@ -37,7 +35,7 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
 
   const hasTokens = project.tokens_data !== null;
 
-  const handleExportAll = async (mode: ContrastMode, e: React.MouseEvent) => {
+  const handleExportAll = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!hasTokens || exporting) return;
     setExporting(true);
@@ -46,7 +44,6 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
       // produced and consumed by this app via saveProjectTokens / TokensProvider).
       const baseTokens = project.tokens_data as unknown as DesignTokens;
       const tokens = mode === 'none' ? baseTokens : applyContrastAdjustments(baseTokens, mode);
-      const fileSuffix = mode === 'none' ? '' : `-wcag-${mode.toLowerCase()}`;
       await downloadProjectArchive(tokens, { archiveBaseName: project.name, fileSuffix });
       notifications.show({
         title: 'Exportação concluída',
@@ -119,35 +116,21 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
         </Group>
         <Group gap={4}>
           {hasTokens && (
-            <Menu position="bottom-end" withArrow shadow="md" withinPortal>
-              <Menu.Target>
-                <ActionIcon
-                  variant="subtle"
-                  color="brand"
-                  size="sm"
-                  aria-label="Exportar todos os arquivos do projeto"
-                  loading={exporting}
-                  onClick={(e) => e.stopPropagation()}
-                  style={{ opacity: 0.6, transition: 'opacity 150ms' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.6'; }}
-                >
-                  <IconDownload size={14} />
-                </ActionIcon>
-              </Menu.Target>
-              <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
-                <Menu.Label>Tipo de exportação</Menu.Label>
-                <Menu.Item onClick={(e) => handleExportAll('none', e)}>
-                  Padrão (sem ajuste)
-                </Menu.Item>
-                <Menu.Item onClick={(e) => handleExportAll('AA', e)}>
-                  WCAG AA
-                </Menu.Item>
-                <Menu.Item onClick={(e) => handleExportAll('AAA', e)}>
-                  WCAG AAA
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+            <Tooltip label={`Exportar projeto (${mode === 'none' ? 'Original' : `WCAG ${mode}`})`}>
+              <ActionIcon
+                variant="subtle"
+                color="brand"
+                size="sm"
+                aria-label="Exportar projeto"
+                loading={exporting}
+                onClick={handleExportAll}
+                style={{ opacity: 0.6, transition: 'opacity 150ms' }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = '1'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.6'; }}
+              >
+                <IconDownload size={14} />
+              </ActionIcon>
+            </Tooltip>
           )}
           {onManageMembers && (
             <Tooltip label="Gerenciar acesso">

@@ -39,9 +39,9 @@ import {
 import { exportFigmaColorsAdvanced } from '@/lib/figma-color-export';
 import { applyContrastAdjustments, countPaletteAdjustments } from '@/lib/semantic-tokens';
 import type { WcagTarget } from '@/lib/contrast';
+import { useWcagMode } from '@/providers';
 
 type ExportFormat = 'mantine' | 'figma-colors' | 'figma-radius' | 'figma-spacing' | 'figma-typography' | 'figma-shadows';
-type ContrastMode = 'none' | 'AA' | 'AAA';
 
 function downloadJson(data: unknown, filename: string) {
   const json = JSON.stringify(data, null, 2);
@@ -70,8 +70,8 @@ function downloadText(content: string, filename: string) {
 
 export function TokenExport() {
   const { tokens } = useTokens();
+  const { mode: contrastMode, fileSuffix } = useWcagMode();
   const [format, setFormat] = useState<ExportFormat>('mantine');
-  const [contrastMode, setContrastMode] = useState<ContrastMode>('AA');
 
   /**
    * Tokens that will actually be exported. When the user picks AA or AAA, palettes are
@@ -106,8 +106,6 @@ export function TokenExport() {
         return '';
     }
   };
-
-  const fileSuffix = contrastMode === 'none' ? '' : `-wcag-${contrastMode.toLowerCase()}`;
 
   const handleDownload = () => {
     const content = getExportContent();
@@ -159,27 +157,16 @@ export function TokenExport() {
               <Text size="sm" fw={600}>
                 Conformidade WCAG 2.1
               </Text>
+              <Badge size="sm" variant="light" color={contrastMode === 'none' ? 'gray' : 'brand'}>
+                {contrastMode === 'none' ? 'Original' : `WCAG ${contrastMode}`}
+              </Badge>
             </Group>
             <Text size="xs" c="dimmed">
               Ajusta automaticamente os tons das paletas (mantendo hue/saturação) para
               atingir o contraste exigido em <b>light e dark</b> antes de exportar. O nível
-              escolhido aqui afeta tanto o JSON do Figma quanto o tema Mantine gerado.
+              é definido no seletor do cabeçalho e vale para todas as exportações
+              (Figma, Mantine e download do projeto).
             </Text>
-          </Stack>
-          <Stack gap={4}>
-            <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
-              Nível alvo
-            </Text>
-            <SegmentedControl
-              value={contrastMode}
-              onChange={(v) => setContrastMode(v as ContrastMode)}
-              size="xs"
-              data={[
-                { value: 'none', label: 'Original' },
-                { value: 'AA', label: 'WCAG AA' },
-                { value: 'AAA', label: 'WCAG AAA' },
-              ]}
-            />
           </Stack>
         </Group>
         {contrastMode !== 'none' && adjustmentCount > 0 && (

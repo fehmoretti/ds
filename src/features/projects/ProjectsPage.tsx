@@ -27,6 +27,7 @@ import {
 } from '@tabler/icons-react';
 import Logo from '@/assets/logo.svg?react';
 import { useAuth } from '@/providers';
+import { WcagModeSelector } from '@/shared/components';
 import { useProjects, useDeleteProject } from './hooks';
 import { CreateProjectModal, ProjectCard, ProjectMembersModal } from './components';
 import { UsersManagement, MyProfile } from '@/features/users';
@@ -64,6 +65,7 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
             </Title>
           </Group>
           <Group gap="sm">
+            <WcagModeSelector />
             {isAdmin && (
               <Tooltip label="Gerenciar Usuários" position="bottom">
                 <ActionIcon

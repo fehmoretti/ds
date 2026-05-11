@@ -1,4 +1,4 @@
-import { ThemeProvider, QueryProvider, AuthProvider, TokensProvider } from '@/providers';
+import { ThemeProvider, QueryProvider, AuthProvider, TokensProvider, WcagModeProvider } from '@/providers';
 import { App } from './App';
 
 export function AppProviders() {
@@ -7,7 +7,9 @@ export function AppProviders() {
       <QueryProvider>
         <AuthProvider>
           <TokensProvider>
-            <App />
+            <WcagModeProvider>
+              <App />
+            </WcagModeProvider>
           </TokensProvider>
         </AuthProvider>
       </QueryProvider>

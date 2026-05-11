@@ -34,6 +34,7 @@ import {
 } from '@tabler/icons-react';
 import Logo from '@/assets/logo.svg?react';
 import { useTokens } from '@/providers';
+import { WcagModeSelector } from '@/shared/components';
 import { fetchProject, saveProjectTokens } from '@/services/projects.service';
 import type { DesignTokens } from '@/types';
 import {
@@ -195,6 +196,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
           </Group>
 
           <Group gap="xs">
+            <WcagModeSelector />
             <Tooltip label="Resetar para padrão" position="bottom">
               <ActionIcon variant="subtle" color="gray" onClick={handleReset} size="lg" aria-label="Resetar para padrão">
                 <IconArrowBackUp size={18} />
