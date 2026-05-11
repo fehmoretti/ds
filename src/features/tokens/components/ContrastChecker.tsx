@@ -213,14 +213,15 @@ export function ContrastChecker() {
   const { tokens, dispatch } = useTokens();
   const [mode, setMode] = useState<SemanticMode>('light');
   const { mode: globalMode } = useWcagMode();
-  // Local classification target is fully driven by the global selector. When
-  // the user picks 'none' (export with no adjustment) we still need a baseline
-  // for pass/fail classification, so default to AA.
+  // When global is 'Original', show real ratios of the unmodified palette
+  // (dry run) so the user sees what actually fails. When AA/AAA, simulate the
+  // adjustment that would ship in the export.
+  const dryRun = globalMode === 'none';
   const target: WcagTarget = globalMode === 'none' ? 'AA' : globalMode;
 
   const derived = useMemo(
-    () => deriveSemanticTokens(tokens.colors, mode, target),
-    [tokens.colors, mode, target],
+    () => deriveSemanticTokens(tokens.colors, mode, target, { dryRun }),
+    [tokens.colors, mode, target, dryRun],
   );
 
   const { passed, failed, adjusted } = derived.report;
@@ -308,10 +309,21 @@ export function ContrastChecker() {
             <Text size="sm" c="dimmed" maw={720}>
               As cores semânticas seguem os mesmos slots usados pelo Mantine e pelo Preview
               (<code>filled</code> = shade 5, <code>light</code> = tint do shade 5,
-              <code> outline</code> = borda no shade 5). Quando uma combinação não atinge o
-              alvo WCAG, o algoritmo ajusta a luminosidade desse tom específico (mantendo
-              hue/saturação) até passar. Texto: {textRequired}:1 · Texto grande: {largeRequired}:1 ·
-              UI: 3:1.
+              <code> outline</code> = borda no shade 5).{' '}
+              {dryRun ? (
+                <>
+                  Modo <b>Original</b>: exibindo o contraste real da paleta atual contra o
+                  limiar <b>AA</b>. As combinações marcadas como falha mostram o que
+                  precisa ser ajustado se você trocar o seletor para AA ou AAA.
+                </>
+              ) : (
+                <>
+                  No modo <b>WCAG {target}</b>, quando uma combinação não atinge o alvo o
+                  algoritmo ajusta a luminosidade desse tom específico (mantendo
+                  hue/saturação) até passar.
+                </>
+              )}{' '}
+              Texto: {textRequired}:1 · Texto grande: {largeRequired}:1 · UI: 3:1.
             </Text>
           </Stack>
           <Group gap="md" wrap="nowrap" align="flex-end">
@@ -346,6 +358,11 @@ export function ContrastChecker() {
               {adjusted} valores ajustados
             </Badge>
           )}
+          {dryRun && failed > 0 && (
+            <Badge size="lg" color="orange" variant="light">
+              {failed} valores precisam de ajuste
+            </Badge>
+          )}
           <CopyButton value={exportJson}>
             {({ copied, copy }) => (
               <Tooltip label={copied ? 'Copiado!' : 'Copiar JSON dos tokens semânticos derivados'}>
@@ -355,7 +372,7 @@ export function ContrastChecker() {
               </Tooltip>
             )}
           </CopyButton>
-          {adjusted > 0 && (
+          {!dryRun && adjusted > 0 && (
             <Button
               size="xs"
               leftSection={<IconWand size={14} />}

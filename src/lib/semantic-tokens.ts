@@ -188,7 +188,9 @@ export function deriveSemanticTokens(
   colors: DesignTokenColors,
   mode: SemanticMode,
   target: WcagTarget = 'AA',
+  options: { dryRun?: boolean } = {},
 ): DerivedSemanticTokens {
+  const { dryRun = false } = options;
   const isLight = mode === 'light';
   const thresholds = WCAG_THRESHOLDS[target];
   const textRatio = thresholds.normal;
@@ -240,6 +242,25 @@ export function deriveSemanticTokens(
   ): string {
     const original = adjusted[paletteKey][shadeIndex]!;
     const bgEffective = bg.length > 7 ? composite(bg, body) : bg;
+    if (dryRun) {
+      // Report-only mode: compute the actual contrast against the user's
+      // current palette without changing any shade. Used by the contrast
+      // screen when global mode is 'Original' so the user sees the real
+      // ratios that would ship if no adjustment is applied.
+      const ratio = contrastRatio(original, bgEffective);
+      checks[path] = {
+        fg: original,
+        bg,
+        bgEffective,
+        fgEffective: original,
+        ratio,
+        required: minRatio,
+        passed: ratio >= minRatio,
+        adjusted: false,
+        usage,
+      };
+      return original;
+    }
     const result = adjustForContrast(original, bgEffective, minRatio, direction);
     if (result.adjusted) {
       adjusted[paletteKey][shadeIndex] = result.hex;
