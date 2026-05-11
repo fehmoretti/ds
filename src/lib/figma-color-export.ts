@@ -124,7 +124,7 @@ const SEMANTIC_MAP: SemanticEntry[] = [
   { name: 'semantic/component/menu/item-hover', scopes: ['FRAME_FILL'], code: 'var(--color-component-menu-item-hover)', light: p('gray/1'), dark: p('gray/7') },
   { name: 'semantic/component/tooltip/background', scopes: ['FRAME_FILL'], code: 'var(--color-component-tooltip-background)', light: p('gray/9'), dark: p('gray/0') },
   { name: 'semantic/component/tooltip/text', scopes: ['TEXT_FILL'], code: 'var(--color-component-tooltip-text)', light: p('base/white'), dark: p('gray/9') },
-  { name: 'semantic/component/overlay/background', scopes: ['FRAME_FILL'], code: 'var(--color-component-overlay-background)', light: {"r":0,"g":0,"b":0,"a":0.4000000059604645}, dark: {"r":0,"g":0,"b":0,"a":0.6000000238418579} },
+  { name: 'semantic/component/overlay/background', scopes: ['FRAME_FILL'], code: 'var(--color-component-overlay-background)', light: raw({r:0,g:0,b:0,a:0.4000000059604645}), dark: raw({r:0,g:0,b:0,a:0.6000000238418579}) },
   { name: 'semantic/component/table/default/header-background', scopes: ['FRAME_FILL'], code: 'var(--color-component-table-header-default-background)', light: p('gray/0'), dark: p('gray/8') },
   { name: 'semantic/component/table/default/row-header', scopes: ['FRAME_FILL'], code: 'var(--color-component-table-default-row-hover)', light: p('gray/1'), dark: p('gray/7') },
   { name: 'semantic/component/table/default/border', scopes: ['STROKE_COLOR'], code: 'var(--color-component-default-table-border)', light: p('gray/2'), dark: p('gray/7') },
@@ -193,8 +193,8 @@ const SEMANTIC_MAP: SemanticEntry[] = [
   { name: 'semantic/component/progress/fill/error', scopes: ['SHAPE_FILL'], code: 'var(--color-component-progress-fill-error)', light: p('feedback/error/5'), dark: p('feedback/error/5') },
   { name: 'semantic/component/progress/fill/warning', scopes: ['SHAPE_FILL'], code: 'var(--color-component-progress-fill-warning)', light: p('feedback/warning/5'), dark: p('feedback/warning/5') },
   { name: 'semantic/component/progress/fill/info', scopes: ['SHAPE_FILL'], code: 'var(--color-component-progress-fill-info)', light: p('feedback/info/5'), dark: p('feedback/info/5') },
-  { name: 'semantic/White', scopes: ['ALL_SCOPES'], code: '', light: {"r":1,"g":1,"b":1,"a":1}, dark: {"r":1,"g":1,"b":1,"a":1} },
-  { name: 'semantic/Black', scopes: ['ALL_SCOPES'], code: '', light: {"r":0,"g":0,"b":0,"a":1}, dark: {"r":0,"g":0,"b":0,"a":1} },
+  { name: 'semantic/White', scopes: ['ALL_SCOPES'], code: '', light: raw({r:1,g:1,b:1,a:1}), dark: raw({r:1,g:1,b:1,a:1}) },
+  { name: 'semantic/Black', scopes: ['ALL_SCOPES'], code: '', light: raw({r:0,g:0,b:0,a:1}), dark: raw({r:0,g:0,b:0,a:1}) },
 ];
 
 // --- Primitive table -------------------------------------------------------

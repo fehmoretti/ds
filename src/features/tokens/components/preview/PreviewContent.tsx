@@ -40,7 +40,7 @@ import type { PreviewStyleProps } from './PreviewTypes';
 
 export function PreviewContent(props: PreviewStyleProps) {
   const {
-    brandColor, accentColor, grayColor, errorColor, successColor, warningColor,
+    brandColor, accentColor, errorColor, successColor, warningColor,
     cardRadius, buttonRadius, badgeRadius,
     fontFamily, monoFamily,
     previewBg, previewTextColor, previewDimmed, previewBorder,

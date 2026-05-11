@@ -47,7 +47,7 @@ import type { PreviewStyleProps } from './PreviewTypes';
 
 export function PreviewDataAndLayout(props: PreviewStyleProps) {
   const {
-    brandColor, accentColor, errorColor, successColor, warningColor,
+    brandColor, accentColor, successColor,
     cardRadius, buttonRadius, badgeRadius,
     previewTextColor, previewDimmed, previewBorder, previewCardBg,
     isLight, sectionStyle, sectionTitleProps,
