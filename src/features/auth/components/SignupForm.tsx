@@ -16,7 +16,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconAlertCircle, IconCheck } from '@tabler/icons-react';
-import Logo from '@/assets/logo.svg?react';
+import { Logo } from '@/shared/components';
 import { signupSchema, type SignupSchema } from '../schemas';
 import { signUpWithEmail } from '../services';
 

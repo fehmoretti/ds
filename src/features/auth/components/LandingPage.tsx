@@ -25,7 +25,7 @@ import {
   IconBolt,
   IconDownload,
 } from '@tabler/icons-react';
-import Logo from '@/assets/logo.svg?react';
+import { Logo } from '@/shared/components';
 
 /* ── CSS Keyframes ── */
 const keyframes = `
@@ -34,8 +34,8 @@ const keyframes = `
   50% { transform: translateY(-8px); }
 }
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 20px rgba(243,43,80,0.15); }
-  50% { box-shadow: 0 0 40px rgba(243,43,80,0.3); }
+  0%, 100% { box-shadow: 0 0 20px rgba(168,85,247,0.15); }
+  50% { box-shadow: 0 0 40px rgba(168,85,247,0.3); }
 }
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -45,7 +45,7 @@ const keyframes = `
 
 /* ── Editor Mockup ── */
 function EditorMockup() {
-  const brandShades = ['#1a0610', '#3d0c1e', '#6b132f', '#991a40', '#c72050', '#F32B50', '#f55a75', '#f78899', '#f9b5be', '#fce2e6'];
+  const brandShades = ['#3b0764', '#581c87', '#6b21a8', '#7e22ce', '#9333ea', '#a855f7', '#c084fc', '#d8b4fe', '#e9d5ff', '#f3e8ff'];
   const accentShades = ['#0a1628', '#122a4d', '#1a3f73', '#225399', '#2a68bf', '#3B82F6', '#6299f7', '#89b1f9', '#b1c9fb', '#d8e4fd'];
 
   return (
@@ -68,15 +68,15 @@ function EditorMockup() {
           <Box style={{ width: 10, height: 10, borderRadius: '50%', background: '#28ca41' }} />
         </Group>
         <Text style={{ color: '#6b6b6b', fontFamily: 'JetBrains Mono, monospace', fontSize: 11 }}>
-          meu-projeto.json — Design System DT
+          meu-projeto.json — DS Tokens Setup
         </Text>
       </Group>
 
       <Group align="stretch" gap={0} wrap="nowrap">
         {/* Sidebar */}
         <Stack gap="sm" py="md" px="xs" align="center" style={{ borderRight: '1px solid rgba(255,255,255,0.06)', minWidth: 38 }}>
-          <Box style={{ padding: 4, borderRadius: 6, background: 'rgba(243,43,80,0.15)' }}>
-            <IconBrush size={14} color="#F32B50" />
+          <Box style={{ padding: 4, borderRadius: 6, background: 'rgba(168,85,247,0.15)' }}>
+            <IconBrush size={14} color="#a855f7" />
           </Box>
           <IconLetterA size={14} color="#6b6b6b" />
           <IconStack2 size={14} color="#6b6b6b" />
@@ -87,7 +87,7 @@ function EditorMockup() {
         <Stack gap="sm" p="md" style={{ flex: 1, minWidth: 0 }}>
           {/* Brand */}
           <Box>
-            <Text tt="uppercase" fw={700} mb={6} style={{ color: '#F32B50', letterSpacing: 1.5, fontSize: 10 }}>Brand · Rose</Text>
+            <Text tt="uppercase" fw={700} mb={6} style={{ color: '#a855f7', letterSpacing: 1.5, fontSize: 10 }}>Brand · Purple</Text>
             <Group gap={3}>
               {brandShades.map((c, i) => (
                 <Box key={i} style={{ width: 32, height: 32, borderRadius: 5, backgroundColor: c, border: i === 5 ? '2px solid rgba(255,255,255,0.8)' : '1px solid rgba(255,255,255,0.04)' }} />
@@ -108,7 +108,7 @@ function EditorMockup() {
           {/* Token rows */}
           <Stack gap={0} style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 8 }}>
             {[
-              { key: 'color.brand.500', value: '#F32B50', dot: '#F32B50' },
+              { key: 'color.brand.500', value: '#a855f7', dot: '#a855f7' },
               { key: 'font.size.base', value: '16px', dot: null },
               { key: 'radius.md', value: '8px', dot: null },
               { key: 'shadow.md', value: '0 4px 12px …', dot: null },
@@ -191,7 +191,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
         >
           <Group gap="sm">
             <Logo style={{ width: 22, height: 25 }} />
-            <Text fw={700} size="sm" c="white">Design System DT</Text>
+            <Text fw={700} size="sm" c="white">DS Tokens Setup</Text>
           </Group>
           <Group gap="md">
             <Button variant="subtle" color="gray" size="sm" onClick={onStart}>
@@ -206,7 +206,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
         {/* ── HERO ── */}
         <Box
           style={{
-            background: 'radial-gradient(ellipse at 30% 20%, rgba(243,43,80,0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59,130,246,0.06) 0%, transparent 50%)',
+            background: 'radial-gradient(ellipse at 30% 20%, rgba(168,85,247,0.12) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(59,130,246,0.06) 0%, transparent 50%)',
             position: 'relative',
           }}
         >
@@ -220,7 +220,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
               width: 500,
               height: 500,
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(243,43,80,0.08) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%)',
               pointerEvents: 'none',
             }}
           />
@@ -256,7 +256,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
                       component="span"
                       inherit
                       style={{
-                        background: 'linear-gradient(135deg, #F32B50 0%, #f55a75 50%, #3B82F6 100%)',
+                        background: 'linear-gradient(135deg, #a855f7 0%, #c084fc 50%, #3B82F6 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
@@ -301,7 +301,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
               <Grid.Col span={{ base: 12, md: 6 }}>
                 <Box
                   style={{
-                    filter: 'drop-shadow(0 32px 64px rgba(243,43,80,0.15)) drop-shadow(0 16px 32px rgba(0,0,0,0.4))',
+                    filter: 'drop-shadow(0 32px 64px rgba(168,85,247,0.15)) drop-shadow(0 16px 32px rgba(0,0,0,0.4))',
                     animation: 'fadeInUp 800ms ease 200ms both',
                   }}
                 >
@@ -317,7 +317,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
           <Container size="lg" py={40}>
             <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="xl">
               {[
-                { value: '10', label: 'Shades por cor', color: '#F32B50' },
+                { value: '10', label: 'Shades por cor', color: '#a855f7' },
                 { value: '3', label: 'Formatos de export', color: '#3B82F6' },
                 { value: '50+', label: 'Componentes', color: '#F59E0B' },
                 { value: '∞', label: 'Projetos', color: '#10B981' },
@@ -334,7 +334,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
         {/* ── FEATURES ── */}
         <Container size="lg" py={{ base: 60, sm: 80 }}>
           <Stack align="center" gap="xs" mb={48}>
-            <Text size="xs" tt="uppercase" fw={700} style={{ color: '#F32B50', letterSpacing: 2 }}>
+            <Text size="xs" tt="uppercase" fw={700} style={{ color: '#a855f7', letterSpacing: 2 }}>
               Recursos
             </Text>
             <Title order={2} fw={700} ta="center" style={{ color: '#f5f5f5', fontSize: 28 }}>
@@ -348,7 +348,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
           <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} spacing="lg">
             {[
               {
-                icon: IconPalette, color: '#F32B50', title: 'Cores & Paletas',
+                icon: IconPalette, color: '#a855f7', title: 'Cores & Paletas',
                 desc: 'Primárias, secundárias, gray e feedbacks. Geração automática de 10 shades com suporte a Light & Dark.',
                 features: ['Brand & Accent', 'Feedbacks semânticos', 'Auto-geração'],
               },
@@ -422,7 +422,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
             </Stack>
 
             <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="xl">
-              <WorkflowStep step={1} title="Crie seu projeto" desc="Escolha um nome, defina equipe e comece com tokens padrão ou do zero." color="#F32B50" />
+              <WorkflowStep step={1} title="Crie seu projeto" desc="Escolha um nome, defina equipe e comece com tokens padrão ou do zero." color="#a855f7" />
               <WorkflowStep step={2} title="Configure visualmente" desc="Use o editor interativo para ajustar cores, tipografia, sombras e espaçamentos." color="#3B82F6" />
               <WorkflowStep step={3} title="Exporte e use" desc="Gere código Mantine, CSS Variables ou JSON para Figma com um clique." color="#10B981" />
             </SimpleGrid>
@@ -439,7 +439,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
                 </Badge>
                 <Title order={2} fw={700} style={{ color: '#f5f5f5', fontSize: 28 }}>
                   Veja as mudanças{' '}
-                  <Text component="span" inherit style={{ color: '#F32B50' }}>instantaneamente</Text>
+                  <Text component="span" inherit style={{ color: '#a855f7' }}>instantaneamente</Text>
                 </Title>
                 <Text size="sm" style={{ color: '#a1a1a1', lineHeight: 1.7 }}>
                   Cada alteração nos tokens é refletida em tempo real no preview com mais de 50 componentes Mantine. Alterne entre Light e Dark mode para validar seu design system.
@@ -473,11 +473,11 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
                   {/* Buttons */}
                   <Stack gap="xs">
                     <Text tt="uppercase" fw={700} style={{ color: '#6b6b6b', letterSpacing: 1, fontSize: 9 }}>Buttons</Text>
-                    <Box style={{ height: 28, borderRadius: 6, background: '#F32B50', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Box style={{ height: 28, borderRadius: 6, background: '#a855f7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <Text fw={600} c="white" style={{ fontSize: 10 }}>Primário</Text>
                     </Box>
-                    <Box style={{ height: 28, borderRadius: 6, background: 'rgba(243,43,80,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Text fw={600} style={{ color: '#F32B50', fontSize: 10 }}>Secundário</Text>
+                    <Box style={{ height: 28, borderRadius: 6, background: 'rgba(168,85,247,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Text fw={600} style={{ color: '#a855f7', fontSize: 10 }}>Secundário</Text>
                     </Box>
                     <Box style={{ height: 28, borderRadius: 6, border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <Text fw={600} style={{ color: '#a1a1a1', fontSize: 10 }}>Outline</Text>
@@ -489,7 +489,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
                     <Box style={{ height: 28, borderRadius: 6, background: '#1f1f1f', border: '1px solid rgba(255,255,255,0.1)', paddingLeft: 8, display: 'flex', alignItems: 'center' }}>
                       <Text style={{ color: '#6b6b6b', fontSize: 10 }}>Nome...</Text>
                     </Box>
-                    <Box style={{ height: 28, borderRadius: 6, background: '#1f1f1f', border: '1px solid #F32B50', paddingLeft: 8, display: 'flex', alignItems: 'center' }}>
+                    <Box style={{ height: 28, borderRadius: 6, background: '#1f1f1f', border: '1px solid #a855f7', paddingLeft: 8, display: 'flex', alignItems: 'center' }}>
                       <Text style={{ color: '#f5f5f5', fontSize: 10 }}>Focado</Text>
                     </Box>
                     <Box style={{ height: 28, borderRadius: 6, background: '#1f1f1f', border: '1px solid rgba(255,255,255,0.06)', paddingLeft: 8, display: 'flex', alignItems: 'center' }}>
@@ -500,8 +500,8 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
                   <Stack gap="xs">
                     <Text tt="uppercase" fw={700} style={{ color: '#6b6b6b', letterSpacing: 1, fontSize: 9 }}>Badges</Text>
                     <Group gap={4}>
-                      <Box style={{ height: 20, borderRadius: 10, background: 'rgba(243,43,80,0.15)', padding: '0 8px', display: 'flex', alignItems: 'center' }}>
-                        <Text fw={600} style={{ color: '#F32B50', fontSize: 9 }}>Brand</Text>
+                      <Box style={{ height: 20, borderRadius: 10, background: 'rgba(168,85,247,0.15)', padding: '0 8px', display: 'flex', alignItems: 'center' }}>
+                        <Text fw={600} style={{ color: '#a855f7', fontSize: 9 }}>Brand</Text>
                       </Box>
                       <Box style={{ height: 20, borderRadius: 10, background: 'rgba(59,130,246,0.15)', padding: '0 8px', display: 'flex', alignItems: 'center' }}>
                         <Text fw={600} style={{ color: '#3B82F6', fontSize: 9 }}>Info</Text>
@@ -515,8 +515,8 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
                         <Text fw={600} style={{ color: '#F59E0B', fontSize: 9 }}>Alerta</Text>
                       </Box>
                     </Group>
-                    <Box style={{ height: 6, borderRadius: 3, background: 'rgba(243,43,80,0.2)', overflow: 'hidden', marginTop: 4 }}>
-                      <Box style={{ width: '65%', height: '100%', borderRadius: 3, background: '#F32B50' }} />
+                    <Box style={{ height: 6, borderRadius: 3, background: 'rgba(168,85,247,0.2)', overflow: 'hidden', marginTop: 4 }}>
+                      <Box style={{ width: '65%', height: '100%', borderRadius: 3, background: '#a855f7' }} />
                     </Box>
                   </Stack>
                 </SimpleGrid>
@@ -528,7 +528,7 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
         {/* ── CTA FINAL ── */}
         <Box
           style={{
-            background: 'radial-gradient(ellipse at 50% 100%, rgba(243,43,80,0.1) 0%, transparent 60%)',
+            background: 'radial-gradient(ellipse at 50% 100%, rgba(168,85,247,0.1) 0%, transparent 60%)',
             borderTop: '1px solid rgba(255,255,255,0.04)',
           }}
         >
@@ -559,10 +559,10 @@ export function LandingPage({ onStart, onSignup }: LandingPageProps) {
             <Group justify="space-between">
               <Group gap="sm">
                 <Logo style={{ width: 16, height: 18 }} />
-                <Text size="xs" style={{ color: '#424242' }}>Design System DT</Text>
+                <Text size="xs" style={{ color: '#424242' }}>DS Tokens Setup</Text>
               </Group>
               <Text size="xs" style={{ color: '#424242' }}>
-                Ferramenta interna — Distrito Tecnológico SENAI
+                Plataforma de gestão de Design Tokens
               </Text>
             </Group>
           </Container>

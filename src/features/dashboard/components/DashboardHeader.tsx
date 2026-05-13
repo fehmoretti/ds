@@ -9,7 +9,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconPlus } from '@tabler/icons-react';
-import Logo from '@/assets/logo.svg?react';
+import { Logo } from '@/shared/components';
 
 interface DashboardHeaderProps {
   onCreateProject: () => void;
@@ -31,10 +31,10 @@ export function DashboardHeader({ onCreateProject }: DashboardHeaderProps) {
           />
           <Logo style={{ width: 24, height: 27 }} />
           <Title order={3} visibleFrom="sm">
-            Design System DT
+            DS Tokens Setup
           </Title>
           <Text fw={600} hiddenFrom="sm">
-            Design System DT
+            DS Tokens Setup
           </Text>
         </Group>
 

@@ -8,7 +8,9 @@ export {
   removeTeamMember,
   fetchTeamsForSelect,
   fetchUsersForSelect,
+  findUserByEmail,
   type Team,
   type TeamMember,
   type TeamWithMembers,
+  type UserSearchResult,
 } from './teams.service';

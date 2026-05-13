@@ -15,7 +15,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IconAlertCircle } from '@tabler/icons-react';
-import Logo from '@/assets/logo.svg?react';
+import { Logo } from '@/shared/components';
 import { loginSchema, type LoginSchema } from '../schemas';
 import { signInWithEmail } from '../services';
 
@@ -54,7 +54,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
         <Stack align="center" mb="xl" className="animate-fade-in">
           <Logo style={{ width: 40, height: 45 }} />
           <Title order={2} fw={700} ta="center">
-            Design System DT
+            DS Tokens Setup
           </Title>
           <Text c="dimmed" size="sm" ta="center">
             Faça login para acessar seus projetos

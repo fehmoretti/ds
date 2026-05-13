@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -204,6 +204,15 @@ export type Database = {
     }
     Functions: {
       can_edit_project: { Args: { p_project_id: string }; Returns: boolean }
+      find_user_by_email: {
+        Args: { p_email: string }
+        Returns: {
+          avatar_url: string
+          email: string
+          full_name: string
+          id: string
+        }[]
+      }
       get_current_user_role: {
         Args: never
         Returns: Database["public"]["Enums"]["user_role"]
@@ -212,6 +221,7 @@ export type Database = {
       is_project_member: { Args: { p_project_id: string }; Returns: boolean }
       is_project_owner: { Args: { p_project_id: string }; Returns: boolean }
       is_team_member: { Args: { p_team_id: string }; Returns: boolean }
+      is_team_owner: { Args: { p_team_id: string }; Returns: boolean }
     }
     Enums: {
       project_role: "owner" | "editor" | "viewer"

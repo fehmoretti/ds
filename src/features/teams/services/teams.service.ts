@@ -175,3 +175,38 @@ export async function fetchUsersForSelect(): Promise<{ value: string; label: str
     description: u.email,
   }));
 }
+
+export interface UserSearchResult {
+  id: string;
+  full_name: string;
+  email: string;
+  avatar_url: string | null;
+}
+
+/**
+ * Find an active user by exact email (case-insensitive).
+ * Uses a SECURITY DEFINER RPC so common users can look up other users
+ * without exposing the full profiles table.
+ */
+export async function findUserByEmail(email: string): Promise<UserSearchResult | null> {
+  const normalized = email.trim();
+  if (!normalized) return null;
+
+  const { data, error } = await supabase.rpc('find_user_by_email', {
+    p_email: normalized,
+  });
+
+  if (error) {
+    throw new Error('Não foi possível buscar o usuário.');
+  }
+
+  const row = Array.isArray(data) ? data[0] : null;
+  if (!row) return null;
+
+  return {
+    id: row.id,
+    full_name: row.full_name,
+    email: row.email,
+    avatar_url: row.avatar_url ?? null,
+  };
+}

@@ -8,6 +8,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconPlus, IconUsersGroup } from '@tabler/icons-react';
+import { useAuth } from '@/providers';
 import { useTeams, useDeleteTeam } from './hooks';
 import { CreateTeamModal, EditTeamModal, TeamMembersModal, TeamsTable } from './components';
 import type { Team } from './services';
@@ -16,6 +17,7 @@ export function TeamsManagement() {
   const [createOpened, createHandlers] = useDisclosure(false);
   const [editTeam, setEditTeam] = useState<Team | null>(null);
   const [membersTeam, setMembersTeam] = useState<Team | null>(null);
+  const { isAdmin } = useAuth();
   const { data: teams, isLoading, error } = useTeams();
   const deleteTeamMutation = useDeleteTeam();
 
@@ -31,11 +33,13 @@ export function TeamsManagement() {
           <Group gap="xs" mb={4}>
             <IconUsersGroup size={20} style={{ color: 'var(--text-secondary)' }} />
             <Title order={3} fw={700}>
-              Gerenciamento de Equipes
+              {isAdmin ? 'Gerenciamento de Equipes' : 'Minhas Equipes'}
             </Title>
           </Group>
           <Text size="sm" c="dimmed">
-            Crie equipes e gerencie seus membros.
+            {isAdmin
+              ? 'Visualize todas as equipes e gerencie seus membros.'
+              : 'Crie suas equipes e adicione membros buscando pelo email.'}
           </Text>
         </div>
         <Button

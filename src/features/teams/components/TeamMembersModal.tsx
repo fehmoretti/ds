@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import type { KeyboardEvent } from 'react';
 import {
   Modal,
   Stack,
   Group,
   Text,
   ActionIcon,
-  Select,
+  TextInput,
   Button,
   Alert,
   Loader,
@@ -13,9 +14,20 @@ import {
   Avatar,
   Paper,
 } from '@mantine/core';
-import { IconTrash, IconAlertCircle, IconPlus } from '@tabler/icons-react';
-import { useTeamWithMembers, useAddTeamMember, useRemoveTeamMember, useUsersForSelect } from '../hooks';
-import type { Team } from '../services';
+import {
+  IconTrash,
+  IconAlertCircle,
+  IconSearch,
+  IconUserPlus,
+  IconCheck,
+} from '@tabler/icons-react';
+import {
+  useTeamWithMembers,
+  useAddTeamMember,
+  useRemoveTeamMember,
+  useFindUserByEmail,
+} from '../hooks';
+import type { Team, UserSearchResult } from '../services';
 
 interface TeamMembersModalProps {
   opened: boolean;
@@ -24,16 +36,65 @@ interface TeamMembersModalProps {
 }
 
 export function TeamMembersModal({ opened, onClose, team }: TeamMembersModalProps) {
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [email, setEmail] = useState('');
+  const [foundUser, setFoundUser] = useState<UserSearchResult | null>(null);
+  const [lookupError, setLookupError] = useState<string | null>(null);
+
   const { data: teamData, isLoading } = useTeamWithMembers(team?.id ?? null);
-  const { data: usersOptions } = useUsersForSelect();
+  const findUser = useFindUserByEmail();
   const addMember = useAddTeamMember();
   const removeMember = useRemoveTeamMember();
 
+  useEffect(() => {
+    if (!opened) {
+      setEmail('');
+      setFoundUser(null);
+      setLookupError(null);
+      findUser.reset();
+      addMember.reset();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [opened, team?.id]);
+
+  const handleSearch = async () => {
+    setLookupError(null);
+    setFoundUser(null);
+
+    const normalized = email.trim();
+    if (!normalized) {
+      setLookupError('Informe um email para buscar.');
+      return;
+    }
+
+    try {
+      const user = await findUser.mutateAsync(normalized);
+      if (!user) {
+        setLookupError('Nenhum usuário ativo encontrado com este email.');
+        return;
+      }
+
+      const alreadyMember = teamData?.members.some((m) => m.user_id === user.id);
+      if (alreadyMember) {
+        setLookupError('Este usuário já pertence à equipe.');
+        return;
+      }
+
+      setFoundUser(user);
+    } catch {
+      setLookupError('Não foi possível buscar o usuário.');
+    }
+  };
+
   const handleAdd = async () => {
-    if (!team || !selectedUserId) return;
-    await addMember.mutateAsync({ teamId: team.id, userId: selectedUserId });
-    setSelectedUserId(null);
+    if (!team || !foundUser) return;
+    try {
+      await addMember.mutateAsync({ teamId: team.id, userId: foundUser.id });
+      setEmail('');
+      setFoundUser(null);
+      setLookupError(null);
+    } catch {
+      // error surfaced via Alert below
+    }
   };
 
   const handleRemove = async (userId: string) => {
@@ -41,10 +102,12 @@ export function TeamMembersModal({ opened, onClose, team }: TeamMembersModalProp
     await removeMember.mutateAsync({ teamId: team.id, userId });
   };
 
-  // Filter out users already in team
-  const availableUsers = usersOptions?.filter(
-    (u) => !teamData?.members.some((m) => m.user_id === u.value),
-  );
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
 
   return (
     <Modal opened={opened} onClose={onClose} title={`Membros — ${team?.name ?? ''}`} size="md">
@@ -55,26 +118,71 @@ export function TeamMembersModal({ opened, onClose, team }: TeamMembersModalProp
           </Alert>
         )}
 
-        {/* Add member form */}
-        <Group gap="sm">
-          <Select
-            placeholder="Selecione um usuário"
-            data={availableUsers ?? []}
-            value={selectedUserId}
-            onChange={setSelectedUserId}
-            searchable
-            style={{ flex: 1 }}
-          />
-          <Button
-            leftSection={<IconPlus size={14} />}
-            size="sm"
-            onClick={handleAdd}
-            loading={addMember.isPending}
-            disabled={!selectedUserId}
-          >
-            Adicionar
-          </Button>
-        </Group>
+        {/* Email search */}
+        <Stack gap="xs">
+          <Group gap="sm" align="flex-end">
+            <TextInput
+              label="Adicionar membro por email"
+              placeholder="usuario@exemplo.com"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.currentTarget.value);
+                if (lookupError) setLookupError(null);
+                if (foundUser) setFoundUser(null);
+              }}
+              onKeyDown={handleKeyDown}
+              type="email"
+              autoComplete="off"
+              style={{ flex: 1 }}
+              error={lookupError ?? undefined}
+            />
+            <Button
+              leftSection={<IconSearch size={14} />}
+              size="sm"
+              variant="default"
+              onClick={handleSearch}
+              loading={findUser.isPending}
+              disabled={!email.trim()}
+            >
+              Buscar
+            </Button>
+          </Group>
+
+          {foundUser && (
+            <Paper
+              p="sm"
+              radius="md"
+              style={{
+                border: '1px solid var(--mantine-color-brand-5, #a855f7)',
+                background: 'var(--surface-raised)',
+              }}
+            >
+              <Group justify="space-between" wrap="nowrap">
+                <Group gap="sm" wrap="nowrap">
+                  <Avatar size="sm" radius="xl" color="violet" src={foundUser.avatar_url ?? undefined}>
+                    {foundUser.full_name?.charAt(0)?.toUpperCase() ?? 'U'}
+                  </Avatar>
+                  <div style={{ minWidth: 0 }}>
+                    <Text size="sm" fw={500} truncate>
+                      {foundUser.full_name}
+                    </Text>
+                    <Text size="xs" c="dimmed" truncate>
+                      {foundUser.email}
+                    </Text>
+                  </div>
+                </Group>
+                <Button
+                  leftSection={<IconUserPlus size={14} />}
+                  size="xs"
+                  onClick={handleAdd}
+                  loading={addMember.isPending}
+                >
+                  Adicionar
+                </Button>
+              </Group>
+            </Paper>
+          )}
+        </Stack>
 
         {/* Members list */}
         {isLoading ? (
@@ -97,30 +205,45 @@ export function TeamMembersModal({ opened, onClose, team }: TeamMembersModalProp
                   background: 'var(--surface-raised)',
                 }}
               >
-                <Group justify="space-between">
-                  <Group gap="sm">
-                    <Avatar size="sm" radius="xl" color="violet">
+                <Group justify="space-between" wrap="nowrap">
+                  <Group gap="sm" wrap="nowrap">
+                    <Avatar
+                      size="sm"
+                      radius="xl"
+                      color="violet"
+                      src={member.profile.avatar_url ?? undefined}
+                    >
                       {member.profile.full_name?.charAt(0)?.toUpperCase() ?? 'U'}
                     </Avatar>
-                    <div>
-                      <Text size="sm" fw={500}>
+                    <div style={{ minWidth: 0 }}>
+                      <Text size="sm" fw={500} truncate>
                         {member.profile.full_name}
                       </Text>
-                      <Text size="xs" c="dimmed">
+                      <Text size="xs" c="dimmed" truncate>
                         {member.profile.email}
                       </Text>
                     </div>
+                    {team?.created_by === member.user_id && (
+                      <Group gap={4} wrap="nowrap">
+                        <IconCheck size={12} style={{ color: 'var(--mantine-color-brand-5)' }} />
+                        <Text size="xs" c="dimmed">
+                          Proprietário
+                        </Text>
+                      </Group>
+                    )}
                   </Group>
-                  <ActionIcon
-                    variant="subtle"
-                    color="red"
-                    size="sm"
-                    aria-label="Remover membro"
-                    onClick={() => handleRemove(member.user_id)}
-                    loading={removeMember.isPending}
-                  >
-                    <IconTrash size={14} />
-                  </ActionIcon>
+                  {team?.created_by !== member.user_id && (
+                    <ActionIcon
+                      variant="subtle"
+                      color="red"
+                      size="sm"
+                      aria-label="Remover membro"
+                      onClick={() => handleRemove(member.user_id)}
+                      loading={removeMember.isPending}
+                    >
+                      <IconTrash size={14} />
+                    </ActionIcon>
+                  )}
                 </Group>
               </Paper>
             ))}

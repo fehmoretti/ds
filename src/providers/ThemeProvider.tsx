@@ -11,18 +11,18 @@ import '@mantine/core/styles.layer.css';
 import '@mantine/notifications/styles.layer.css';
 import '@/styles/global.css';
 
-// Brand palette based on #F32B50
+// Brand palette based on #a855f7
 const brand: MantineColorsTuple = [
-  '#fff0f3',
-  '#ffdeE4',
-  '#fbb1c1',
-  '#f6829c',
-  '#f35a7c',
-  '#f23d63',
-  '#F32B50',
-  '#d9213f',
-  '#c21a35',
-  '#aa102a',
+  '#faf5ff',
+  '#f3e8ff',
+  '#e9d5ff',
+  '#d8b4fe',
+  '#c084fc',
+  '#a855f7',
+  '#9333ea',
+  '#7e22ce',
+  '#6b21a8',
+  '#581c87',
 ];
 
 const theme = createTheme({

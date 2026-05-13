@@ -10,6 +10,7 @@ import {
   Paper,
 } from '@mantine/core';
 import { IconEdit, IconUsers, IconTrash, IconAlertCircle } from '@tabler/icons-react';
+import { useAuth } from '@/providers';
 import type { Team } from '../services';
 
 interface TeamsTableProps {
@@ -22,6 +23,8 @@ interface TeamsTableProps {
 }
 
 export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, onDelete }: TeamsTableProps) {
+  const { user, isAdmin } = useAuth();
+  const currentUserId = user?.id;
   if (isLoading) {
     return (
       <Center py="xl">
@@ -59,7 +62,9 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {teams.map((team) => (
+          {teams.map((team) => {
+            const canManage = isAdmin || team.created_by === currentUserId;
+            return (
             <Table.Tr key={team.id}>
               <Table.Td>
                 <Text size="sm" fw={500}>
@@ -78,7 +83,7 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
               </Table.Td>
               <Table.Td>
                 <Group gap="xs" justify="flex-end">
-                  <Tooltip label="Gerenciar membros">
+                  <Tooltip label={canManage ? 'Gerenciar membros' : 'Ver membros'}>
                     <ActionIcon
                       variant="subtle"
                       color="blue"
@@ -88,30 +93,35 @@ export function TeamsTable({ teams, isLoading, error, onEdit, onManageMembers, o
                       <IconUsers size={16} />
                     </ActionIcon>
                   </Tooltip>
-                  <Tooltip label="Editar equipe">
-                    <ActionIcon
-                      variant="subtle"
-                      color="gray"
-                      aria-label="Editar equipe"
-                      onClick={() => onEdit(team)}
-                    >
-                      <IconEdit size={16} />
-                    </ActionIcon>
-                  </Tooltip>
-                  <Tooltip label="Excluir equipe">
-                    <ActionIcon
-                      variant="subtle"
-                      color="red"
-                      aria-label="Excluir equipe"
-                      onClick={() => onDelete(team)}
-                    >
-                      <IconTrash size={16} />
-                    </ActionIcon>
-                  </Tooltip>
+                  {canManage && (
+                    <Tooltip label="Editar equipe">
+                      <ActionIcon
+                        variant="subtle"
+                        color="gray"
+                        aria-label="Editar equipe"
+                        onClick={() => onEdit(team)}
+                      >
+                        <IconEdit size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  )}
+                  {canManage && (
+                    <Tooltip label="Excluir equipe">
+                      <ActionIcon
+                        variant="subtle"
+                        color="red"
+                        aria-label="Excluir equipe"
+                        onClick={() => onDelete(team)}
+                      >
+                        <IconTrash size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  )}
                 </Group>
               </Table.Td>
             </Table.Tr>
-          ))}
+            );
+          })}
         </Table.Tbody>
       </Table>
       </Table.ScrollContainer>

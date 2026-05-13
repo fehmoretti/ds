@@ -32,7 +32,7 @@ import {
   IconSettings,
   IconShieldCheck,
 } from '@tabler/icons-react';
-import Logo from '@/assets/logo.svg?react';
+import { Logo } from '@/shared/components';
 import { useTokens } from '@/providers';
 import { WcagModeSelector } from '@/shared/components';
 import { fetchProject, saveProjectTokens } from '@/services/projects.service';
@@ -190,7 +190,7 @@ export function TokenEditor({ projectId, onBack }: TokenEditorProps) {
                 {projectName}
               </Title>
               <Text size="xs" c="dimmed">
-                Design System DT
+                DS Tokens Setup
               </Text>
             </div>
           </Group>

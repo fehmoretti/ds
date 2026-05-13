@@ -25,7 +25,7 @@ import {
   IconUsersGroup,
   IconUser,
 } from '@tabler/icons-react';
-import Logo from '@/assets/logo.svg?react';
+import { Logo } from '@/shared/components';
 import { useAuth } from '@/providers';
 import { useProjects, useDeleteProject } from './hooks';
 import { CreateProjectModal, ProjectCard, ProjectMembersModal } from './components';
@@ -60,7 +60,7 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
           <Group gap="sm" style={{ cursor: 'pointer' }} onClick={() => onNavigate?.('projects')}>
             <Logo style={{ width: 24, height: 27 }} />
             <Title order={4} fw={600}>
-              Design System DT
+              DS Tokens Setup
             </Title>
           </Group>
           <Group gap="sm">
@@ -77,7 +77,7 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
                 </ActionIcon>
               </Tooltip>
             )}
-            {isAdmin && (
+            {(
               <Tooltip label="Gerenciar Equipes" position="bottom">
                 <ActionIcon
                   variant={activeView === 'teams' ? 'light' : 'subtle'}
@@ -118,7 +118,7 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
       <AppShell.Main>
         <Container size="lg" py="xl">
           {activeView === 'users' && isAdmin && <UsersManagement />}
-          {activeView === 'teams' && isAdmin && <TeamsManagement />}
+          {activeView === 'teams' && <TeamsManagement />}
           {activeView === 'profile' && <MyProfile />}
           {activeView === 'projects' && (
           <Stack gap="xl" className="animate-fade-in">

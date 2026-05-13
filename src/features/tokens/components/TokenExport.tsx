@@ -213,15 +213,7 @@ export function TokenExport() {
               no Figma.
             </List.Item>
             <List.Item>
-              Abra o{' '}
-              <Anchor
-                href="https://www.figma.com/files/team/1547225245484562294/project/561147928?fuid=1547225241184416419"
-                target="_blank"
-                fw={600}
-              >
-                Design System no Figma
-              </Anchor>{' '}
-              do Distrito Tecnológico.
+              Abra o seu Design System no Figma.
             </List.Item>
             <List.Item>
               No Figma, execute o plugin e use a opção <Text span fw={600}>Import</Text> para carregar os arquivos JSON exportados aqui.

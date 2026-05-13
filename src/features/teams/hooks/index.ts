@@ -9,6 +9,7 @@ import {
   removeTeamMember,
   fetchTeamsForSelect,
   fetchUsersForSelect,
+  findUserByEmail,
 } from '../services';
 import { useAuth } from '@/providers';
 
@@ -102,5 +103,15 @@ export function useUsersForSelect() {
   return useQuery({
     queryKey: ['users', 'select'],
     queryFn: fetchUsersForSelect,
+  });
+}
+
+/**
+ * One-shot lookup of a user by exact email.
+ * Used by team-owners (non-admin) to find members to add.
+ */
+export function useFindUserByEmail() {
+  return useMutation({
+    mutationFn: (email: string) => findUserByEmail(email),
   });
 }

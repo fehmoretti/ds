@@ -4,8 +4,8 @@ export const DEFAULT_TOKENS: DesignTokens = {
   colors: {
     brand: {
       name: 'brand',
-      baseHex: '#F32B50',
-      shades: ['#FEE9EF', '#FBC0CB', '#F99FB0', '#F67E95', '#F4577A', '#F32B50', '#981142', '#710E33', '#4B0921', '#260513'],
+      baseHex: '#a855f7',
+      shades: ['#faf5ff', '#f3e8ff', '#e9d5ff', '#d8b4fe', '#c084fc', '#a855f7', '#9333ea', '#7e22ce', '#6b21a8', '#581c87'],
     },
     accent: {
       name: 'accent',

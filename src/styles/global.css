@@ -9,12 +9,12 @@
   --border-subtle: rgba(255, 255, 255, 0.06);
   --border-default: rgba(255, 255, 255, 0.1);
   --border-hover: rgba(255, 255, 255, 0.15);
-  --glow-brand: rgba(243, 43, 80, 0.15);
-  --glow-brand-strong: rgba(243, 43, 80, 0.3);
+  --glow-brand: rgba(168, 85, 247, 0.15);
+  --glow-brand-strong: rgba(168, 85, 247, 0.3);
   --text-primary: #f5f5f5;
   --text-secondary: #a1a1a1;
   --text-tertiary: #6b6b6b;
-  --gradient-brand: linear-gradient(135deg, #F32B50 0%, #f35a7c 50%, #f6829c 100%);
+  --gradient-brand: linear-gradient(135deg, #a855f7 0%, #c084fc 50%, #d8b4fe 100%);
   --gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%);
   --shadow-glow: 0 0 0 1px rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3);
   --transition-fast: 100ms ease;
@@ -30,8 +30,8 @@
   --border-subtle: rgba(0, 0, 0, 0.04);
   --border-default: rgba(0, 0, 0, 0.08);
   --border-hover: rgba(0, 0, 0, 0.12);
-  --glow-brand: rgba(243, 43, 80, 0.08);
-  --glow-brand-strong: rgba(243, 43, 80, 0.15);
+  --glow-brand: rgba(168, 85, 247, 0.08);
+  --glow-brand-strong: rgba(168, 85, 247, 0.15);
   --text-primary: #111111;
   --text-secondary: #6b6b6b;
   --text-tertiary: #a1a1a1;
@@ -47,8 +47,8 @@
   --border-subtle: rgba(0, 0, 0, 0.04);
   --border-default: rgba(0, 0, 0, 0.08);
   --border-hover: rgba(0, 0, 0, 0.12);
-  --glow-brand: rgba(243, 43, 80, 0.08);
-  --glow-brand-strong: rgba(243, 43, 80, 0.15);
+  --glow-brand: rgba(168, 85, 247, 0.08);
+  --glow-brand-strong: rgba(168, 85, 247, 0.15);
   --text-primary: #111111;
   --text-secondary: #6b6b6b;
   --text-tertiary: #a1a1a1;
@@ -180,7 +180,7 @@ body {
 
 .mantine-Tabs-tab.mantine-Tabs-tab[data-active] {
   background: var(--glow-brand) !important;
-  color: var(--mantine-color-brand-5, #F32B50) !important;
+  color: var(--mantine-color-brand-5, #a855f7) !important;
   border: none !important;
 }
 
