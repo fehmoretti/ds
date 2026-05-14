@@ -5,14 +5,14 @@ import {
   deleteProject,
   syncProjectMembers,
   uploadProjectLogo,
-  type Project,
+  type ProjectWithOwner,
 } from '@/services/projects.service';
 import type { Json } from '@/lib/supabase/database.types';
 import { DEFAULT_TOKENS } from '@/lib/default-tokens';
 import { useAuth } from '@/providers';
 
 export function useProjects() {
-  return useQuery<Project[]>({
+  return useQuery<ProjectWithOwner[]>({
     queryKey: ['projects'],
     queryFn: fetchUserProjects,
   });

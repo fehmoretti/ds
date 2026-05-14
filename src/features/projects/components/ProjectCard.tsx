@@ -8,20 +8,20 @@ import {
   Box,
   Image,
 } from '@mantine/core';
-import { IconTrash, IconCalendar, IconPalette, IconUsers, IconDownload } from '@tabler/icons-react';
+import { IconTrash, IconCalendar, IconPalette, IconUsers, IconDownload, IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
-import type { Project } from '@/services/projects.service';
+import type { ProjectWithOwner } from '@/services/projects.service';
 import type { DesignTokens } from '@/types';
 import { downloadProjectArchive } from '@/lib/project-export';
 import { applyContrastAdjustments } from '@/lib/semantic-tokens';
 import { useWcagMode } from '@/providers';
 
 interface ProjectCardProps {
-  project: Project;
+  project: ProjectWithOwner;
   onOpen: (projectId: string) => void;
   onDelete: (projectId: string) => void;
-  onManageMembers?: (project: Project) => void;
+  onManageMembers?: (project: ProjectWithOwner) => void;
 }
 
 export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: ProjectCardProps) {
@@ -34,6 +34,12 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
   });
 
   const hasTokens = project.tokens_data !== null;
+
+  const ownerName = project.owner?.full_name?.trim() || project.owner?.email || null;
+  const ownerLabel = ownerName ?? 'Sem responsável';
+  const ownerTooltip = project.owner
+    ? `Criado por ${ownerName}${project.owner.email && project.owner.email !== ownerName ? ` · ${project.owner.email}` : ''}`
+    : '';
 
   const handleExportAll = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -184,14 +190,20 @@ export function ProjectCard({ project, onOpen, onDelete, onManageMembers }: Proj
             {updatedAt}
           </Text>
         </Group>
-        <Badge
-          size="xs"
-          variant="light"
-          color={hasTokens ? 'brand' : 'gray'}
-          radius="sm"
-        >
-          {hasTokens ? 'Configurado' : 'Sem tokens'}
-        </Badge>
+        <Tooltip label={ownerTooltip} disabled={!ownerTooltip}>
+          <Badge
+            size="xs"
+            variant="light"
+            color={hasTokens ? 'brand' : 'gray'}
+            radius="sm"
+            leftSection={<IconUser size={10} style={{ display: 'block' }} />}
+            style={{ maxWidth: 160 }}
+          >
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {ownerLabel}
+            </span>
+          </Badge>
+        </Tooltip>
       </Group>
     </Card>
   );

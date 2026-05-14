@@ -7,6 +7,14 @@ type ProjectUpdate = TablesUpdate<'projects'>;
 type ProjectMember = Tables<'project_members'>;
 type ProjectRole = Enums<'project_role'>;
 
+/**
+ * Project shape augmented with the owner's basic profile info.
+ * Used by list/detail views to display who created the project.
+ */
+export type ProjectWithOwner = Project & {
+  owner: Pick<Tables<'profiles'>, 'id' | 'full_name' | 'email'> | null;
+};
+
 export type { Project, ProjectInsert, ProjectUpdate, ProjectMember, ProjectRole };
 
 /**
@@ -14,17 +22,17 @@ export type { Project, ProjectInsert, ProjectUpdate, ProjectMember, ProjectRole 
  * - Admins see all projects (handled by RLS).
  * - Regular users see only their own projects + projects they're members of.
  */
-export async function fetchUserProjects(): Promise<Project[]> {
+export async function fetchUserProjects(): Promise<ProjectWithOwner[]> {
   const { data, error } = await supabase
     .from('projects')
-    .select('*')
+    .select('*, owner:profiles!projects_owner_id_fkey(id, full_name, email)')
     .order('updated_at', { ascending: false });
 
   if (error) {
     throw new Error('Falha ao carregar projetos');
   }
 
-  return data;
+  return (data ?? []) as ProjectWithOwner[];
 }
 
 /**
