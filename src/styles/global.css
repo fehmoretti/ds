@@ -1,5 +1,11 @@
 /* === GLOBAL STYLES — Premium AI-native Design System === */
 
+/* Subtle variant: keep background transparent on :active (pressed) state. */
+.mantine-Button-root[data-variant='subtle']:active,
+.mantine-ActionIcon-root[data-variant='subtle']:active {
+  background-color: transparent !important;
+}
+
 :root {
   /* Semantic tokens */
   --surface-base: #141414;

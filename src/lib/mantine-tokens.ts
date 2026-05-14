@@ -8,8 +8,9 @@
  *     get-css-color-variables.mjs
  *
  * Active state is NOT a Mantine slot — Mantine renders `:active` as `translateY(1px)`
- * with the same hover background. We expose `bgActive` for completeness but it always
- * mirrors `bgHover`.
+ * with the same hover background. We expose `bgActive` for completeness; for the
+ * `subtle` variant we deliberately force it to `transparent` (background none) to
+ * match the design intent of the exported tokens.
  */
 
 export type MantineMode = 'light' | 'dark';
@@ -110,7 +111,7 @@ export function getMantineButtonTokens(
       subtle: {
         background: TRANSPARENT,
         backgroundHover: lightHover,
-        backgroundActive: lightHover,
+        backgroundActive: TRANSPARENT,
         color: lightColor,
         border: TRANSPARENT,
       },
@@ -149,7 +150,7 @@ export function getMantineButtonTokens(
     subtle: {
       background: TRANSPARENT,
       backgroundHover: darkLightHover,
-      backgroundActive: darkLightHover,
+      backgroundActive: TRANSPARENT,
       color: darkLightColor,
       border: TRANSPARENT,
     },
