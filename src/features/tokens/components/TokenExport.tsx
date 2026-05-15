@@ -202,6 +202,17 @@ export function TokenExport() {
             </ThemeIcon>
           }>
             <List.Item>
+              Duplique o arquivo base{' '}
+              <Anchor
+                href="https://www.figma.com/community/file/1637177236098324065/ds-tokens-mantine"
+                target="_blank"
+                fw={600}
+              >
+                DS Tokens · Mantine
+              </Anchor>{' '}
+              da Figma Community para a sua conta.
+            </List.Item>
+            <List.Item>
               Instale o plugin{' '}
               <Anchor
                 href="https://www.figma.com/community/plugin/1256972111705530093"
@@ -213,10 +224,10 @@ export function TokenExport() {
               no Figma.
             </List.Item>
             <List.Item>
-              Abra o seu Design System no Figma.
+              Abra o arquivo duplicado do Design System no Figma.
             </List.Item>
             <List.Item>
-              No Figma, execute o plugin e use a opção <Text span fw={600}>Import</Text> para carregar os arquivos JSON exportados aqui.
+              Execute o plugin e use a opção <Text span fw={600}>Import</Text> para carregar os arquivos JSON exportados aqui — as variáveis existentes serão atualizadas mantendo os bindings dos componentes.
             </List.Item>
           </List>
         </Alert>
