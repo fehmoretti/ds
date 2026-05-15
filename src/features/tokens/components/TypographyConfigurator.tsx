@@ -1,20 +1,34 @@
+import { useEffect, useMemo } from 'react';
 import {
   Stack,
   Text,
-  TextInput,
   NumberInput,
   SimpleGrid,
   Paper,
   Group,
   Title,
   Box,
+  Autocomplete,
+  Button,
+  ActionIcon,
+  Tooltip,
 } from '@mantine/core';
+import { IconBookmarkPlus, IconTrash } from '@tabler/icons-react';
 import { useTokens } from '@/providers';
 import type { DesignTokenTypography, TypographySizes } from '@/types';
+import {
+  FIGMA_SANS_FONTS,
+  FIGMA_SERIF_FONTS,
+  FIGMA_DISPLAY_FONTS,
+  FIGMA_MONO_FONTS,
+  loadGoogleFont,
+} from './figma-fonts';
+import { useCustomFonts } from '../hooks/useCustomFonts';
 
 export function TypographyConfigurator() {
   const { tokens, dispatch } = useTokens();
   const { fonts, sizes, weights } = tokens.typography;
+  const { fonts: customFonts, addFont, removeFont } = useCustomFonts();
 
   const updateTypography = (partial: Partial<DesignTokenTypography>) => {
     dispatch({
@@ -26,6 +40,51 @@ export function TypographyConfigurator() {
   const handleFontChange = (key: 'base' | 'mono', value: string) => {
     updateTypography({ fonts: { ...fonts, [key]: value } });
   };
+
+  const baseOptions = useMemo(
+    () => [
+      ...(customFonts.length > 0
+        ? [{ group: 'Suas fontes', items: customFonts }]
+        : []),
+      { group: 'Sans-serif (Figma)', items: [...FIGMA_SANS_FONTS] },
+      { group: 'Serif (Figma)', items: [...FIGMA_SERIF_FONTS] },
+      { group: 'Display (Figma)', items: [...FIGMA_DISPLAY_FONTS] },
+    ],
+    [customFonts],
+  );
+
+  const monoOptions = useMemo(
+    () => [
+      ...(customFonts.length > 0
+        ? [{ group: 'Suas fontes', items: customFonts }]
+        : []),
+      { group: 'Monospace (Figma)', items: [...FIGMA_MONO_FONTS] },
+    ],
+    [customFonts],
+  );
+
+  const knownFontSet = useMemo(
+    () =>
+      new Set<string>([
+        ...FIGMA_SANS_FONTS,
+        ...FIGMA_SERIF_FONTS,
+        ...FIGMA_DISPLAY_FONTS,
+        ...FIGMA_MONO_FONTS,
+        ...customFonts,
+      ]),
+    [customFonts],
+  );
+
+  // Carrega dinamicamente as fontes selecionadas (Google Fonts)
+  useEffect(() => {
+    loadGoogleFont(fonts.base);
+    loadGoogleFont(fonts.mono);
+  }, [fonts.base, fonts.mono]);
+
+  const baseTrim = fonts.base.trim();
+  const monoTrim = fonts.mono.trim();
+  const canSaveBase = baseTrim.length > 0 && !knownFontSet.has(baseTrim);
+  const canSaveMono = monoTrim.length > 0 && !knownFontSet.has(monoTrim);
 
   const handleSizeChange = (key: keyof TypographySizes, value: number) => {
     updateTypography({ sizes: { ...sizes, [key]: value } });
@@ -48,12 +107,44 @@ export function TypographyConfigurator() {
         <Paper p="md" withBorder>
           <Stack gap="sm">
             <Text size="sm" fw={600}>Fonte Base</Text>
-            <TextInput
-              value={fonts.base}
-              onChange={(e) => handleFontChange('base', e.currentTarget.value)}
-              placeholder="Ex: Montserrat, Inter, Roboto"
-              size="sm"
-            />
+            <Group gap="xs" align="flex-end" wrap="nowrap">
+              <Autocomplete
+                value={fonts.base}
+                onChange={(value) => handleFontChange('base', value)}
+                data={baseOptions}
+                placeholder="Selecione ou digite uma fonte"
+                size="sm"
+                limit={50}
+                style={{ flex: 1 }}
+                rightSection={
+                  customFonts.includes(baseTrim) ? (
+                    <Tooltip label="Remover dos meus salvos">
+                      <ActionIcon
+                        variant="subtle"
+                        color="red"
+                        size="sm"
+                        onClick={() => removeFont(baseTrim)}
+                        aria-label="Remover fonte salva"
+                      >
+                        <IconTrash size={14} />
+                      </ActionIcon>
+                    </Tooltip>
+                  ) : null
+                }
+              />
+              {canSaveBase && (
+                <Tooltip label="Salvar como fonte customizada">
+                  <Button
+                    size="sm"
+                    variant="light"
+                    leftSection={<IconBookmarkPlus size={14} />}
+                    onClick={() => addFont(baseTrim)}
+                  >
+                    Salvar
+                  </Button>
+                </Tooltip>
+              )}
+            </Group>
             <Box style={{ fontFamily: `${fonts.base}, sans-serif` }}>
               <Text size="lg">
                 Exemplo de texto com {fonts.base}
@@ -68,12 +159,44 @@ export function TypographyConfigurator() {
         <Paper p="md" withBorder>
           <Stack gap="sm">
             <Text size="sm" fw={600}>Fonte Mono</Text>
-            <TextInput
-              value={fonts.mono}
-              onChange={(e) => handleFontChange('mono', e.currentTarget.value)}
-              placeholder="Ex: JetBrains Mono, Fira Code"
-              size="sm"
-            />
+            <Group gap="xs" align="flex-end" wrap="nowrap">
+              <Autocomplete
+                value={fonts.mono}
+                onChange={(value) => handleFontChange('mono', value)}
+                data={monoOptions}
+                placeholder="Selecione ou digite uma fonte mono"
+                size="sm"
+                limit={50}
+                style={{ flex: 1 }}
+                rightSection={
+                  customFonts.includes(monoTrim) ? (
+                    <Tooltip label="Remover dos meus salvos">
+                      <ActionIcon
+                        variant="subtle"
+                        color="red"
+                        size="sm"
+                        onClick={() => removeFont(monoTrim)}
+                        aria-label="Remover fonte salva"
+                      >
+                        <IconTrash size={14} />
+                      </ActionIcon>
+                    </Tooltip>
+                  ) : null
+                }
+              />
+              {canSaveMono && (
+                <Tooltip label="Salvar como fonte customizada">
+                  <Button
+                    size="sm"
+                    variant="light"
+                    leftSection={<IconBookmarkPlus size={14} />}
+                    onClick={() => addFont(monoTrim)}
+                  >
+                    Salvar
+                  </Button>
+                </Tooltip>
+              )}
+            </Group>
             <Box style={{ fontFamily: `${fonts.mono}, monospace` }}>
               <Text size="lg">
                 Exemplo de código
