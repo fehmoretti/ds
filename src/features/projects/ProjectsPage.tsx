@@ -207,7 +207,11 @@ export function ProjectsPage({ onOpenProject, activeView = 'projects', onNavigat
         </Container>
       </AppShell.Main>
 
-      <CreateProjectModal opened={createOpened} onClose={createHandlers.close} />
+      <CreateProjectModal
+        opened={createOpened}
+        onClose={createHandlers.close}
+        onCreated={onOpenProject}
+      />
       <ProjectMembersModal
         opened={!!membersProject}
         onClose={() => setMembersProject(null)}

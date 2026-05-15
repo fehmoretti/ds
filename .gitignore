@@ -25,3 +25,6 @@ coverage/
 
 # Misc
 *.log
+
+# Internal docs (não versionados)
+PROJECT_OVERVIEW.md

@@ -25,9 +25,10 @@ import { createProjectSchema, type CreateProjectForm } from '../schemas';
 interface CreateProjectModalProps {
   opened: boolean;
   onClose: () => void;
+  onCreated?: (projectId: string) => void;
 }
 
-export function CreateProjectModal({ opened, onClose }: CreateProjectModalProps) {
+export function CreateProjectModal({ opened, onClose, onCreated }: CreateProjectModalProps) {
   const createProject = useCreateProject();
   const { data: teamsOptions } = useTeamsForSelect();
   const { data: usersOptions } = useUsersForSelect();
@@ -59,7 +60,7 @@ export function CreateProjectModal({ opened, onClose }: CreateProjectModalProps)
   };
 
   const onSubmit = async (data: CreateProjectForm) => {
-    await createProject.mutateAsync({
+    const created = await createProject.mutateAsync({
       name: data.name,
       description: data.description || undefined,
       teamIds: selectedTeams,
@@ -71,6 +72,7 @@ export function CreateProjectModal({ opened, onClose }: CreateProjectModalProps)
     setSelectedUsers([]);
     clearLogo();
     onClose();
+    onCreated?.(created.id);
   };
 
   const handleClose = () => {
